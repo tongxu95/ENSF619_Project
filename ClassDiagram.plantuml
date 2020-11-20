@@ -1,0 +1,121 @@
+@startuml 
+
+skinparam classAttributeIconSize 0
+class MovieCatalogue {
+    - movies: ArrayList<Movies>
+    + viewMovies(): ArrayList<Movies>
+    + searchMovie(name:String):ArrayList<Movies>
+}
+class Movies {
+    - name:String
+}
+class TheaterCatalogue {
+    - theaters: ArrayList<Theater>
+    + searchTheatersForMovie(movie:Movies):ArrayList<Theater>
+    + searchTheater(name:String, movie:Movies):ArrayList<Theater>
+}
+class Theater {
+    - name: String 
+    - movies: MovieCatalogue 
+    - showtimes: ArrayList<ShowTimes>
+    - rooms: ArrayList<TheaterRoom>
+    + revenue: double
+    + searchShowTimes(movie:Movie, date:Date):ArrayList<ShowTime>
+    + processPayment(money:double):boolean
+}
+class ShowTime {
+    - movie: Movies
+    - date: Date
+    - time: Time
+    - room: TheaterRoom
+    - price: double
+    - seat_offered: SeatMap
+    + displaySeats(): SeatMap
+    + getPrice(): double
+    + bookSeat(pos:Pair, booking_id:Integer):boolean
+    + cancelSeat(pos:Pair):boolean
+}
+class TheaterRoom {
+    - number:int
+    - seat_arrangement:SeatMap
+}
+class SeatMap {
+    - seats: ArrayList<Seat>
+    + displaySeats():SeatMap
+    + bookSeat(pos:Pair, booking_id:Integer):boolean
+    + cancelSeat(pos:Pair):boolean
+}
+class Seat {
+    - booking_id:Integer
+    - position: Pair
+    + bookSeat(booking_id:int):boolean
+    + cancelSeat():boolean
+    + checkAvailability():boolean
+}
+class User {
+    - name:String 
+    - addr:String
+    - financial_institution:String 
+    - credit_card:CreditCard
+    - email:String
+    + processPayment(money:double):boolean
+    + sendToEmail(output:String)
+    + refundCredit(ticketPrice:double):void
+}
+class RegisteredUser extends User {
+    - username:String
+    - password:String
+    - feeRenewDate:Date
+    + refundCredit(ticketPrice:double):void
+    + checkFeeRenewal():boolean
+    + promptAnnualFee():void
+    + sendMovieNew(ArrayList<Movies>):void
+}
+class CreditCard {
+    - card_no:String 
+    - expr_date:String
+    - cvv:String 
+}
+class MovieTicket {
+    - showtime:ShowTime 
+    - seat:Seat
+    - bookingID:int
+    - userType:String
+    + cancel():double
+    + printTicket():boolean
+}
+
+class BookingManager {
+    - movies:MovieCatalogue
+    - theaters:TheaterCatalogue
+    - bookings:Map<Integer, MovieTicket> 
+    - customerManager:CustomerManager
+    + viewMovies(): ArrayList<Movies>
+    + searchMovie(name:String):ArrayList<Movies>
+    + searchTheatersForMovie(movie:Movies):ArrayList<Theater>
+    + searchTheater(name:String, movie:Movies):ArrayList<Theater>
+    + getShowTimes(movie:Movie, theater:Theater, date:Date):ArrayList<ShowTime>
+    + displaySeat(showtime:ShowTime): SeatMap
+    + getPrice(showtime:ShowTime): double
+    + processPayment(showtime:ShowTime, user:User, theater:Theater, seat:Pair):String
+    + validateBooking(bookingID:int):MovieTicket
+    + verifyCancellation(ticket:MovieTicket):boolean
+    + cancelTicket(ticket:MovieTicket):double
+}
+class LoadDB {
+    - movies:MovieCatalogue
+    - theaters:TheaterCatalogue
+    - registeredUsers:Map<String, RegisteredUser>
+    + readMovies(filename:String):void
+    + readTheaters(filename:String):void
+    + readRegisteredUsers(filename:String):void
+}
+class CustomerManager {
+    - registeredUsers:ArrayList<RegisteredUser>
+    + login(username:String, password:String):RegisteredUsers
+    + createUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):User
+    + registerUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
+    + checkFeeRenewal(regUser:RegisteredUser):boolean
+    + sendNews(news:String):boolean
+}
+@enduml 
