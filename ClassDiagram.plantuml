@@ -89,7 +89,6 @@ class BookingManager {
     - movies:MovieCatalogue
     - theaters:TheaterCatalogue
     - bookings:Map<Integer, MovieTicket> 
-    - customerManager:CustomerManager
     + viewMovies(): ArrayList<Movies>
     + searchMovie(name:String):ArrayList<Movies>
     + searchTheatersForMovie(movie:Movies):ArrayList<Theater>
