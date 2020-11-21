@@ -109,12 +109,54 @@ class LoadDB {
     + readTheaters(filename:String):void
     + readRegisteredUsers(filename:String):void
 }
+
 class CustomerManager {
     - registeredUsers:ArrayList<RegisteredUser>
-    + login(username:String, password:String):RegisteredUsers
+    + login(username:String, password:String):RegisteredUser
     + createUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):User
-    + registerUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
+    + registerUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):RegisteredUser
     + checkFeeRenewal(regUser:RegisteredUser):boolean
     + sendNews(news:String):boolean
 }
+
+class ModelController implements ActionListener {
+	+ actionPerformed(e: ActionEvent):void
+	- viewMovies():void
+	- searchMovies(movie:String):void
+    - searchTheatersForMovie(movie:String):void
+    - searchTheater(theater:String, movie:String):void
+    - getShowTimes(movie:String, theater:String, date:String):void
+    - displaySeat(movie:String, theater:String, date:String, showtime:String): void
+    - getPrice(movie:String, theater:String, date:String, showtime:String): void
+    - processPayment(movie:String, theater:String, date:String, showtime:String, user:User, seat:String):void
+    - cancelTicket(booking_id:String):void
+    - login(username:String, password:String):void
+    - createUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
+    - registerUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
+}
+
+class GUI {
+}
+
+class CancellationView {
+}
+
+class RegistrationView {
+}
+
+class PaymentView {
+}
+
+class SearchMovieView {
+}
+
+class SearchTheaterView {
+}
+
+class SearchShowTimeView {
+}
+
+class SeatView {
+}
+
 @enduml 
