@@ -122,41 +122,55 @@ class CustomerManager {
 class ModelController implements ActionListener {
 	+ actionPerformed(e: ActionEvent):void
 	- viewMovies():void
-	- searchMovies(movie:String):void
-    - searchTheatersForMovie(movie:String):void
-    - searchTheater(theater:String, movie:String):void
-    - getShowTimes(movie:String, theater:String, date:String):void
-    - displaySeat(movie:String, theater:String, date:String, showtime:String): void
-    - getPrice(movie:String, theater:String, date:String, showtime:String): void
-    - processPayment(movie:String, theater:String, date:String, showtime:String, user:User, seat:String):void
-    - cancelTicket(booking_id:String):void
-    - login(username:String, password:String):void
-    - createUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
-    - registerUser(name:String, addr:String, bank:String, card_no:String, expr_date:String, cvv:String, email:String):void
+	- searchMovies(e: ActionEvent):void
+    - searchTheatersForMovie(e: ActionEvent):void
+    - searchTheater(e: ActionEvent):void
+    - getShowTimes(e: ActionEvent):void
+    - displaySeat(e: ActionEvent): void
+    - getPrice(e: ActionEvent): void
+    - processPayment(e: ActionEvent):void
+    - cancelTicket(e: ActionEvent):void
+    - login(e: ActionEvent):void
+    - createUser(e: ActionEvent):void
+    - registerUser():void
 }
 
 class GUI {
 }
 
+class UserInfoView {
+	- userName:JTextField
+	- password:JTextField
+	- name:JTextField
+	- addr:JTextField
+	- bank:JTextField
+	- card_no:JTextField
+	- expr_date:JTextField
+	- cvv:JTextField
+	- email:JTextField
+	- login:JButton
+	- noAccount:JButton
+	- register:JButton
+}
+
 class CancellationView {
+	- bookingID:JTextField
+	- submit:JButton
+	- userInfo:UserInfoView
 }
 
-class RegistrationView {
+class BookingView {
+	- movie:JTextField
+	- viewMovie:JButton
+	- searchMovie:JButton
+	- theater:JTextField
+	- searchTheater:JButton
+	- date:JList
+	- showTimes:JList
+	- seatMap:JButton[][]
+	- display:JTextArea
+	- userInfo:UserInfoView
 }
 
-class PaymentView {
-}
-
-class SearchMovieView {
-}
-
-class SearchTheaterView {
-}
-
-class SearchShowTimeView {
-}
-
-class SeatView {
-}
 
 @enduml 
