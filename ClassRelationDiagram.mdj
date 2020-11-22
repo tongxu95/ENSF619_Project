@@ -7453,32 +7453,6 @@
 							}
 						},
 						{
-							"_type": "UMLTextView",
-							"_id": "AAAAAAF15t0mOgS2bgA=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"left": 1296,
-							"top": 552,
-							"width": 30.9599609375,
-							"height": 25,
-							"text": "has"
-						},
-						{
-							"_type": "UMLTextView",
-							"_id": "AAAAAAF15t2a9BUsrcA=",
-							"_parent": {
-								"$ref": "AAAAAAFF+qBtyKM79qY="
-							},
-							"font": "Arial;13;0",
-							"left": 1344,
-							"top": 560,
-							"width": 60,
-							"height": 33,
-							"text": "1"
-						},
-						{
 							"_type": "UMLDependencyView",
 							"_id": "AAAAAAF15t9A4GyfIy8=",
 							"_parent": {
@@ -8866,12 +8840,12 @@
 										"$ref": "AAAAAAF16CRqxRlz8KM="
 									},
 									"font": "Arial;13;0",
-									"left": 804,
-									"top": 320,
+									"left": 768,
+									"top": 319,
 									"width": 35.419921875,
 									"height": 13,
-									"alpha": 3.809881816447764,
-									"distance": 24.20743687382041,
+									"alpha": -0.7229796452303812,
+									"distance": 22.67156809750927,
 									"hostEdge": {
 										"$ref": "AAAAAAF16CRqxhl3ek0="
 									},
