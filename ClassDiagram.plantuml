@@ -36,7 +36,7 @@ class ShowTime {
     - seat_offered: SeatMap
     + displaySeats(): SeatMap
     + getPrice(): double
-    + bookSeat(pos:Pair, booking_id:Integer):boolean
+    + selectSeat(seat:Seat):boolean
     + cancelSeat(pos:Pair):boolean
 }
 
@@ -113,6 +113,7 @@ class BookingManager {
     + validateBooking(bookingID:int):MovieTicket
     + verifyCancellation(ticket:MovieTicket):boolean
     + cancelTicket(ticket:MovieTicket):double
+    + selectSeat(show:ShowTime, seat:Seat)
 }
 
 class LoadDB {
@@ -151,6 +152,7 @@ class ModelController implements ActionListener {
     - login(e: ActionEvent):void
     - createTempUser(e: ActionEvent):void
     - registerUser():void
+    - selectSeat(e:ActionEvent):void
 }
 
 class GUI {
