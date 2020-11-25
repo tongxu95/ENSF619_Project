@@ -12,6 +12,71 @@
  *  Date: November 30 2020
  */
 
-public class CancellationView {
-    
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+public class CancellationView extends JFrame{
+	private JTextField bookingID = new JTextField(20); 
+	private JButton cancel = new JButton("Cancel Ticket");
+	private JTextArea display = new JTextArea("");
+	
+	private UserInfoView userInfo;
+	
+	public CancellationView() {
+		Container contentPane = getContentPane();
+		contentPane.setLayout(new GridLayout(5, 1, 2, 2));
+		
+		JPanel Panel_0 = new JPanel();
+		JLabel titlePrompt = new JLabel("Cancel Ticket");
+		Panel_0.add(titlePrompt);
+		contentPane.add(Panel_0);
+		
+		JPanel Panel_1 = new JPanel();
+		JLabel bookingPrompt = new JLabel("BookingID:");
+		Panel_1.add(bookingPrompt);
+		Panel_1.add(bookingID);
+		contentPane.add(Panel_1);
+
+		JPanel Panel_2 = new JPanel();
+		Panel_2.add(cancel);
+		contentPane.add(Panel_2);	
+		
+		JPanel Panel_3=new JPanel();
+		JLabel messagePrompt = new JLabel("Message:");	
+		Panel_3.add(messagePrompt);	
+		ScrollPane messageSp=new ScrollPane();
+		Panel_3.add(messageSp);
+		messageSp.add(display);
+		messageSp.setSize(200,40);	
+		contentPane.add(Panel_3);	
+		
+		setTitle("Cancellation GUI");
+		setSize(800, 800);   
+		setLocation(450, 0);
+		pack();
+		setVisible(true);		
+	}
+
+	public JTextField getBookingID() {
+		return bookingID;
+	}
+
+	public JTextArea getDisplay() {
+		return display;
+	}
+
+	public UserInfoView getUserInfo() {
+		return userInfo;
+	}
+	
+	public void setUserInfo(UserInfoView user) {
+		userInfo = user;
+	}	
+	
+	public JButton getCancel() {
+		return cancel;
+	}		
 }
