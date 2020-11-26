@@ -1,4 +1,7 @@
 package CustomerModel;
+
+import Model.MovieTicket;
+
 /*
  *  User.java
  *  package: CustomerModel
@@ -14,5 +17,26 @@ package CustomerModel;
  */
 
 public class User {
+
+	String name, addr, financial_institution, email;
+	int credit_card_no, card_cvv, card_exp;
+	
+	public User() {}
+	
+	public User(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email) {
+		this.name = name;
+		this.addr = addr;
+		financial_institution = bank;
+		credit_card_no = card_no;
+		card_exp = expr_date;
+		card_cvv = cvv;
+		this.email = email;
+		
+	}
+	
+	public String sendTicket(MovieTicket ticket) {
+		// TODO
+		return null;
+	}
     
 }

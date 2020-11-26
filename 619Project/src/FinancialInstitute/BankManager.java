@@ -1,5 +1,8 @@
 package FinancialInstitute;
+
 import java.util.Map;
+import CustomException.InvalidBankException;
+
 /*
  *  BankManager.java
  *  package: FinancialInstitute
@@ -21,13 +24,15 @@ public class BankManager {
     	this.banks = banks;
     }
     
-    public boolean processTransaction(String bank, int card_no, int exp_date, int cvv) {
+    public boolean processTransaction(String bank, int card_no, int exp_date, int cvv, double payment) throws InvalidBankException {
     	Bank theBank = findBank(bank);
-//    	if (theBank == null) throw new InvalidBankException();
-    	return false;
+    	if (theBank == null) throw new InvalidBankException();
+    	return theBank.processTransaction(card_no, exp_date, cvv, payment);
     }
     
     private Bank findBank(String bank) {
     	return banks.get(bank);
     }
+    
+    
 }

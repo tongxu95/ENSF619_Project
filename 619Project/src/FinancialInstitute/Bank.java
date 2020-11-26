@@ -1,4 +1,7 @@
 package FinancialInstitute;
+
+import java.util.ArrayList;
+
 /*
  *  Bank.java
  *  package: FinancialInstitute
@@ -14,5 +17,27 @@ package FinancialInstitute;
  */
 
 public class Bank {
+
+	private String name;
+	
+	private ArrayList<CreditCard> creditCards;
+	
+	public Bank(String name, ArrayList<CreditCard> creditCards) {
+		this.name = name;
+		this.creditCards = creditCards;
+	}
+	
+	public boolean processTransaction(int card_no, int exp_date, int cvv, double payment) {
+		for (CreditCard card : creditCards) {
+			if (card.getCardNo() == card_no &&
+					card.getExpDate() == exp_date &&
+					card.getCvv() == cvv) {
+				card.processTransaction(payment);
+				return true;
+			}
+		}
+		return false;
+	}
     
+	
 }
