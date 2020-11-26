@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  ShowTime.java
  *  package: Model
@@ -92,5 +92,10 @@ public class ShowTime {
     }
     public double getPrice() {
         return this.price;
+    }
+    @Override
+    public String toString() {
+    	// TODO
+    	return "";
     }
 }

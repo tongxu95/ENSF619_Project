@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  MovieTicket.java
  *  package: Model
@@ -62,5 +62,11 @@ public class MovieTicket {
 
     public String getUserType() {
         return this.userType;
+    }
+    
+    @Override
+    public String toString() {
+    	// TODO
+    	return "";
     }
 }

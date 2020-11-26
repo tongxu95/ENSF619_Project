@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  Movies.java
  *  package: Model
