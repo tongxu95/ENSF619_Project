@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 /*
  *  Movies.java
  *  package: Model
@@ -14,5 +14,13 @@ package Model;
  */
 
 public class Movies {
-    
+    private String name;
+
+    public Movies(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

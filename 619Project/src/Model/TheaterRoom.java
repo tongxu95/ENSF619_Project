@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 /*
  *  TheaterRoom.java
  *  package: Model
@@ -14,5 +14,32 @@ package Model;
  */
 
 public class TheaterRoom {
-    
+    private int number;
+    private SeatMap seat_arrangement;
+
+    /**
+     * Initialize a theater room object
+     * @param number
+     * @param seat_arrangement
+     */
+    public TheaterRoom(int number, SeatMap seat_arrangement) {
+        this.number = number;
+        this.seat_arrangement = seat_arrangement;
+    }
+
+    /**
+     * return the theater number
+     * @return number
+     */
+    public int getNumber() {
+        return this.number;
+    }
+
+    /**
+     * return then seatmap of the theater
+     * @return seatmap
+     */
+    public SeatMap getSeatArrangement() {
+        return this.seat_arrangement;
+    }
 }
