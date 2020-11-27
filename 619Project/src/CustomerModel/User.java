@@ -35,8 +35,9 @@ public class User {
 	}
 	
 	public String sendTicket(MovieTicket ticket) {
-		// TODO
-		return null;
+		String confirmation = "Thank you for your purchase.\nPlease find below your ticket:";
+		confirmation += ticket.toString();
+		return confirmation;
 	}
     
 }

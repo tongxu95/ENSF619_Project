@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  BookingManager.java
  *  package: Model
