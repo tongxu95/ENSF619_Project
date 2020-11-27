@@ -110,10 +110,18 @@ public class BookingManager {
         TODO LIST_OF_ITEMS
         - items reliant on date or time - sort showtimes by date and time
             - don't know if its easier to sort on the modelcontroller / view side
+
         - booking manager 
             - addBooking(ticket:MovieTicket) <-- not sure if required CHECK ShowTime.selectSeat() logic
             - any other functions required by the model controller <-- TBD
             - figure out how the bookings in bookingManager gets populated / DB gets populated
             - validateBooking(bookingID:int) RETURNS MovieTicket
+            
+            - seatmap 2D array of seats - (10 rows x 8 columns)?
+
+            - database WRT model movies / showtimes / etc...
+            - modelcontroller WRT model
+
+            - adding folder to build path to local environment variables
     */
 }
