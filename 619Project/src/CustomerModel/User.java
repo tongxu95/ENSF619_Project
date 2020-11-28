@@ -19,11 +19,12 @@ import Model.MovieTicket;
 public class User {
 
 	String name, addr, financial_institution, email;
-	int credit_card_no, card_cvv, card_exp;
+	long credit_card_no;
+	int card_cvv, card_exp;
 	
 	public User() {}
 	
-	public User(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email) {
+	public User(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email) {
 		this.name = name;
 		this.addr = addr;
 		financial_institution = bank;

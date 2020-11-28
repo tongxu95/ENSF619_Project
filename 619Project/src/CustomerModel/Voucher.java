@@ -1,6 +1,7 @@
 package CustomerModel;
 
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.Random;
 
 /*
@@ -20,16 +21,22 @@ import java.util.Random;
 public class Voucher {
 	private int voucherID;
     private double credit;
-    private LocalDate expr_date;
+    private Date expr_date;
     
     public Voucher(int voucherID, double credit) {
     	this.voucherID = voucherID;
     	this.credit = credit;
-    	expr_date = LocalDate.now().plusDays(365);
+    	expr_date = Date.valueOf(LocalDate.now().plusDays(365));
+    }
+    
+    public Voucher(int voucherID, double credit, Date expr_date) {
+    	this.voucherID = voucherID;
+    	this.credit = credit;
+    	this.expr_date = expr_date;
     }
     
     public boolean isValid() {
-    	return expr_date.compareTo(LocalDate.now()) > 0;
+    	return expr_date.compareTo(Date.valueOf(LocalDate.now())) > 0;
     }
     
     public double getCredit() {

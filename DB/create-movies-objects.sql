@@ -9,7 +9,7 @@ CREATE TABLE REGISTERED (
   Password				varchar(15) NOT NULL,
   Name					varchar(50),
   Address		        varchar(50),
-  Bank					varchar(50),
+  Bank					varchar(15),
   Email					varchar(50),
   Card_no			    varchar(16),
   Card_cvv				int(3),
@@ -29,38 +29,37 @@ CREATE TABLE VOUCHER (
 
 DROP TABLE IF EXISTS BANK;
 CREATE TABLE BANK (
-  BankID				int(5) NOT NULL,
-  Name         			varchar(50),
-  PRIMARY key (BankID)
+  Name         			varchar(15) NOT NULL,
+  PRIMARY key (Name)
 );
 
 
 DROP TABLE IF EXISTS CREDITCARD;
 CREATE TABLE CREDITCARD (
-  BankID			    int(5) NOT NULL, 
+  BankName			    varchar(15) NOT NULL, 
   Card_no			    varchar(16),
   Card_cvv				int(3),
   Card_exp				int(4),
   PRIMARY key (Card_no),
-  FOREIGN key (BankID) REFERENCES BANK(BankID)
+  FOREIGN key (BankName) REFERENCES BANK(Name)
   		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
 INSERT INTO BANK VALUES
-	(10000,'Scotiabank'),
-	(10001,'TD Canada Trust'),
-    (10002,'CIBC'),
-    (10003,'RBC'),
-    (10004,'BMO');
+	('Scotiabank'),
+	('TD Canada Trust'),
+    ('CIBC'),
+    ('RBC'),
+    ('BMO');
     
 INSERT INTO CREDITCARD VALUES
-	(10000,'4929844610628530',138,0524),
-    (10000,'2720999154954117',290,0323),
-    (10001,'4532316556491131',488,0921),
-    (10002,'5343911733879095',881,0122),
-    (10003,'5409797916016568',723,0722),
-    (10004,'6011014819581872',631,0922);
+	('Scotiabank','4929844610628530',138,0524),
+    ('Scotiabank','2720999154954117',290,0323),
+    ('TD Canada Trust','4532316556491131',488,0921),
+    ('CIBC','5343911733879095',881,0122),
+    ('RBC','5409797916016568',723,0722),
+    ('BMO','6011014819581872',631,0922);
 
 INSERT INTO VOUCHER VALUES 
 	(20000,14.95,'2021-11-28'),

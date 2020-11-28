@@ -28,7 +28,7 @@ public class RegisteredUser extends User {
     	this.password = password;
     }
     
-    public RegisteredUser(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email, String username, String pwd) {
+    public RegisteredUser(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email, String username, String pwd) {
     	super(name, addr, bank, card_no, expr_date, cvv, email);
     	this.username = username;
     	this.password = pwd;

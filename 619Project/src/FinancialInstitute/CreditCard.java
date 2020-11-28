@@ -14,8 +14,8 @@ package FinancialInstitute;
  */
 
 public class CreditCard {
-	/** 12-digit card number */
-    private int card_no;
+	/** 16-digit card number */
+    private long card_no;
     
     /** 4 digits expiration date, first two digits for month and last two digits for year*/
     private int exp_date;
@@ -29,7 +29,7 @@ public class CreditCard {
     /** default 3000 */
     private double limit;
     
-    public CreditCard(int card_no, int exp_date, int cvv) {
+    public CreditCard(long card_no, int exp_date, int cvv) {
     	this.card_no = card_no;
     	this.exp_date = exp_date;
     	this.cvv = cvv;
@@ -37,7 +37,7 @@ public class CreditCard {
     	limit = 3000;
     }
 
-	public int getCardNo() {
+	public long getCardNo() {
 		return card_no;
 	}
 
