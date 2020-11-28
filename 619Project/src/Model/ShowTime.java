@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 /*
  *  ShowTime.java
  *  package: Model
@@ -16,7 +16,7 @@ package Model;
 import java.util.Date;
 import java.sql.Time;
 
-public class ShowTime {
+public class ShowTime implements Comparable<ShowTime> {
     private Movies movie;
     private String theater_name;
     private int theater_num;
@@ -55,14 +55,14 @@ public class ShowTime {
      * @param row
      * @param column
      */
-    public boolean selectSeat(int row, int column, int booking_id) {
+    public MovieTicket selectSeat(int row, int column, int booking_id, String userType) {
         if (seats_offered.checkSeatAvailability(row, column)) {
             seats_offered.bookSeat(row, column, booking_id);
-            return true;
+            return new MovieTicket(this, row, column, booking_id, userType);
         }
 
         System.out.println("That seat is not available");
-        return false;
+        return null;
     }
 
     /**
@@ -98,4 +98,13 @@ public class ShowTime {
     	// TODO
     	return "";
     }
+
+    @Override public int compareTo(ShowTime showtime) {
+        // sort in ascending order
+        return this.getDate().compareTo(showtime.getDate());
+
+        // // sort in descending order
+        // return showtime.getDate().compareTo(this.getDate());
+    }
+
 }

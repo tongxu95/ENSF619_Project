@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 
 /*
  *  Seat.java
@@ -16,17 +16,13 @@ package Model;
 
  public class Seat {
     private int booking_id;
-    private int row;
-    private int column;
 
     /**
      * Initialize a seat with a position and no booking id
      * @param position
      */
-    public Seat(int row, int column) {
+    public Seat() {
         this.booking_id = 0;
-        this.row = row;
-        this.column = column;
     }
 
     /**
@@ -57,12 +53,6 @@ package Model;
     /*
         GET FUNCTIONS
     */
-    public int getRow() {
-        return this.row;
-    }
-    public int getColumn() {
-        return this.column;
-    }
     public int getBookingId() {
         return this.booking_id;
     }

@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 /*
  *  Theater.java
  *  package: Model
@@ -13,6 +13,8 @@ package Model;
  *  Date: November 30 2020
  */
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Collections;
 
 public class Theater {
     private String name;
@@ -45,6 +47,30 @@ public class Theater {
         }
         return output;
     }
+
+    /**
+     * Return showtimes that are for a given movie sorted by date
+     * @param movie
+     * @param date
+     * @return 
+     */
+    public ArrayList<ShowTime> searchShowTimesByDate(Movies movie, Date date) {
+        ArrayList<ShowTime> output = new ArrayList<>();
+
+        for (int i = 0; i < showtimes.size(); i++) {
+            if (showtimes.get(i).getMovie().getName() == movie.getName()) {
+                if (date.after(showtimes.get(i).getDate())) {
+                    output.add(showtimes.get(i));
+                }
+            }
+        }
+
+        // sort arraylist by date
+        Collections.sort(output);
+
+        return output;
+    }
+
 
     /*
         GET FUNCTIONS

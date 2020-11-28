@@ -1,4 +1,4 @@
-package Model;
+// package Model;
 /*
  *  BookingManager.java
  *  package: Model
@@ -15,6 +15,7 @@ package Model;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BookingManager {
     private MovieCatalogue movies;
@@ -69,6 +70,16 @@ public class BookingManager {
     }
 
     /**
+     * @param movie
+     * @param theater
+     * @param date
+     * @return showtimes for a particular movie at a theater by date
+     */
+    public ArrayList<ShowTime> getShowTimesByDate(Movies movie, Theater theater, Date date) {
+        return theater.searchShowTimesByDate(movie, date);
+    }
+
+    /**
      * @return the seatmap of a showtime
      */
     public SeatMap displaySeat(ShowTime showtime) {
@@ -100,28 +111,20 @@ public class BookingManager {
     }
 
     /**
-     * @return boolean if the seat can be selected
+     * @return select seat returns a movieTicket if the selected seat is available
      */
-    public boolean selectSeat(ShowTime showtime, int row, int column, int booking_id) {
-        return showtime.selectSeat(row, column, booking_id);
+    public MovieTicket selectSeat(ShowTime showtime, int row, int column, int booking_id, String userType) {
+        return showtime.selectSeat(row, column, booking_id, userType);
+    }
+
+
+    public MovieTicket validateBooking(int booking_id) {
+        return bookings.get(booking_id); // returns null if no mapping for booking_id, returns movieticket if exists
     }
 
     /*
         TODO LIST_OF_ITEMS
-        - items reliant on date or time - sort showtimes by date and time
-            - don't know if its easier to sort on the modelcontroller / view side
-
-        - booking manager 
-            - addBooking(ticket:MovieTicket) <-- not sure if required CHECK ShowTime.selectSeat() logic
-            - any other functions required by the model controller <-- TBD
-            - figure out how the bookings in bookingManager gets populated / DB gets populated
-            - validateBooking(bookingID:int) RETURNS MovieTicket
-            
-            - seatmap 2D array of seats - (10 rows x 8 columns)?
-
             - database WRT model movies / showtimes / etc...
             - modelcontroller WRT model
-
-            - adding folder to build path to local environment variables
     */
 }
