@@ -9,9 +9,9 @@ CREATE TABLE REGISTERED (
   Password				varchar(15) NOT NULL,
   Name					varchar(50),
   Address		        varchar(50),
-  Bank					varchar(50),
+  Bank					varchar(15),
   Email					varchar(50),
-  Card_no			    int(16),
+  Card_no			    varchar(16),
   Card_cvv				int(3),
   Card_exp				int(4),
   PRIMARY key (Username)
@@ -29,21 +29,46 @@ CREATE TABLE VOUCHER (
 
 DROP TABLE IF EXISTS BANK;
 CREATE TABLE BANK (
-  BankID				int(5) NOT NULL,
-  Name         			varchar(50),
-  PRIMARY key (BankID)
+  Name         			varchar(15) NOT NULL,
+  PRIMARY key (Name)
 );
 
 
 DROP TABLE IF EXISTS CREDITCARD;
 CREATE TABLE CREDITCARD (
-  BankID			    int(5) NOT NULL, 
-  Card_no			    int(16),
+  BankName			    varchar(15) NOT NULL, 
+  Card_no			    varchar(16),
   Card_cvv				int(3),
   Card_exp				int(4),
-  PRIMARY key (ToolID),
-  FOREIGN key (BankID) REFERENCES BANK(BankID)
+  PRIMARY key (Card_no),
+  FOREIGN key (BankName) REFERENCES BANK(Name)
   		ON DELETE CASCADE
         ON UPDATE CASCADE
 );
 
+INSERT INTO BANK VALUES
+	('Scotiabank'),
+	('TD Canada Trust'),
+    ('CIBC'),
+    ('RBC'),
+    ('BMO');
+    
+INSERT INTO CREDITCARD VALUES
+	('Scotiabank','4929844610628530',138,0524),
+    ('Scotiabank','2720999154954117',290,0323),
+    ('TD Canada Trust','4532316556491131',488,0921),
+    ('CIBC','5343911733879095',881,0122),
+    ('RBC','5409797916016568',723,0722),
+    ('BMO','6011014819581872',631,0922);
+
+INSERT INTO VOUCHER VALUES 
+	(20000,14.95,'2021-11-28'),
+    (20001,12.71,'2021-01-20'),
+    (20002,17.95,'2021-05-12'),
+    (20003,15.26,'2021-06-26'),
+    (20004,14.95,'2020-12-30');
+
+INSERT INTO REGISTERED VALUES
+	('alfred1996', 'Pa$sword','Alfred L. McCray','718 Village Green Road, Lake Verde, PE','Scotiabank','alfred1996@gmail.com','4929844610628530',138,0524),
+    ('Mike331','Rankin861221','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','TD Canada Trust','mike331@hotmail.com','2720999154954117',290,0323),
+    ('Lorraine2020','LThomson820721','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','BMO','thomson331@shaw.ca','4532316556491131',488,0921);

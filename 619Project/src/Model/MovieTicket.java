@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  MovieTicket.java
  *  package: Model
@@ -66,7 +66,9 @@ public class MovieTicket {
     
     @Override
     public String toString() {
-    	// TODO
-    	return "";
+    	String info = "Booking ID: " + booking_id + "\n";
+    	info += showtime;
+    	info += "Seat: \n\tRow: " + row + "\n\tColumn: " + column; 
+    	return info;
     }
 }

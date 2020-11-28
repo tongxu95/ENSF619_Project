@@ -1,7 +1,3 @@
-/Controller/
-/CustomException/
-/CustomerModel/
+/DBController/
 /FinancialInstitute/
-/Model/
-/View/
-/.DS_Store
+/CustomerModel/
