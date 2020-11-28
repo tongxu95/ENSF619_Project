@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  ShowTime.java
  *  package: Model
@@ -95,8 +95,11 @@ public class ShowTime implements Comparable<ShowTime> {
     }
     @Override
     public String toString() {
-    	// TODO
-    	return "";
+    	String info = movie + "Theater: " + theater_name + "\n";
+    	info += "Date: " + date + "\n";
+    	info += "Showtime: " + time + "\n";
+    	info += "Theater room: " + theater_num + "\n";
+    	return info;
     }
 
     @Override public int compareTo(ShowTime showtime) {

@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  Movies.java
  *  package: Model
@@ -23,4 +23,11 @@ public class Movies {
     public String getName() {
         return name;
     }
+    
+    @Override
+    public String toString() {
+    	return "Movie: " + name + '\n';
+    }
+    
+    
 }

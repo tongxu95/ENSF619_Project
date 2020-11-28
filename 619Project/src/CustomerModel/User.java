@@ -35,7 +35,7 @@ public class User {
 	}
 	
 	public String sendTicket(MovieTicket ticket) {
-		String confirmation = "Thank you for your purchase.\nPlease find below your ticket:";
+		String confirmation = "Thank you for your purchase.\nPlease find below your ticket:\n";
 		confirmation += ticket.toString();
 		return confirmation;
 	}

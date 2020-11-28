@@ -11,7 +11,7 @@ CREATE TABLE REGISTERED (
   Address		        varchar(50),
   Bank					varchar(50),
   Email					varchar(50),
-  Card_no			    int(16),
+  Card_no			    varchar(16),
   Card_cvv				int(3),
   Card_exp				int(4),
   PRIMARY key (Username)
@@ -38,10 +38,10 @@ CREATE TABLE BANK (
 DROP TABLE IF EXISTS CREDITCARD;
 CREATE TABLE CREDITCARD (
   BankID			    int(5) NOT NULL, 
-  Card_no			    int(16),
+  Card_no			    varchar(16),
   Card_cvv				int(3),
   Card_exp				int(4),
-  PRIMARY key (ToolID),
+  PRIMARY key (Card_no),
   FOREIGN key (BankID) REFERENCES BANK(BankID)
   		ON DELETE CASCADE
         ON UPDATE CASCADE

@@ -1,4 +1,4 @@
-// package Model;
+package Model;
 /*
  *  Theater.java
  *  package: Model
