@@ -18,16 +18,14 @@ import java.util.Collections;
 
 public class Theater {
     private String name;
-    private MovieCatalogue movies;
     private ArrayList<ShowTime> showtimes;
     private ArrayList<TheaterRoom> rooms;
 
     /**
      * Initialize the theater
      */
-    public Theater(String name, MovieCatalogue movies, ArrayList<ShowTime> showtimes, ArrayList<TheaterRoom> rooms) {
+    public Theater(String name, ArrayList<ShowTime> showtimes, ArrayList<TheaterRoom> rooms) {
         this.name = name;
-        this.movies = movies;
         this.showtimes = showtimes;
         this.rooms = rooms;
     }
@@ -71,6 +69,13 @@ public class Theater {
         return output;
     }
 
+    /**
+     * Add a showtime to the movie theater
+     */
+    public void addShowTime(ShowTime showtime) {
+        showtimes.add(showtime);
+        return;
+    }
 
     /*
         GET FUNCTIONS
@@ -78,9 +83,6 @@ public class Theater {
 
     public String getName() {
         return this.name;
-    }
-    public MovieCatalogue getMovies() {
-        return this.movies;
     }
     public ArrayList<ShowTime> getShowtimes() {
         return this.showtimes;
