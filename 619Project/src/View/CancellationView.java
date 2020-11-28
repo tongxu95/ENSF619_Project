@@ -56,7 +56,7 @@ public class CancellationView extends JFrame{
 		
 		setTitle("Cancellation GUI");
 		setSize(800, 800);   
-		setLocation(450, 0);
+		setLocation(400, 200);
 		pack();
 		setVisible(true);		
 	}

@@ -25,12 +25,40 @@ public class GUI extends JFrame{
 	private CancellationView cancellPage;
 	private BookingView bookingPage;
 	
-	private JButton booking = new JButton("Booking");
-	private JButton cancellation = new JButton("Cancellation");
+	private JButton booking = new JButton("Booking Ticket");
+	private JButton cancellation = new JButton(" Cancel Ticket  ");
 	
-	public GUI() {	
-		bookingPage = new BookingView();
-		cancellPage = new CancellationView();
+	public GUI() {		
+		Container contentPane = getContentPane();
+		BorderLayout layout = new BorderLayout();
+		layout.setVgap(20);
+		contentPane.setLayout(layout);
+		
+		JLabel titlePrompt = new JLabel("           Ticket Reservation System");
+		contentPane.add("North", titlePrompt);
+		
+		JPanel Panel_1 = new JPanel();
+		JLabel space_1 = new JLabel("    ");
+		Panel_1.add(space_1);
+		Panel_1.add(booking);
+		JLabel space_2 = new JLabel("    ");
+		Panel_1.add(space_2);
+		contentPane.add("Center", Panel_1);
+	
+		
+		JPanel Panel_2 = new JPanel();
+		JLabel space_3 = new JLabel("    ");
+		Panel_2.add(space_3);
+		Panel_2.add(cancellation);
+		JLabel space_4 = new JLabel("    ");
+		Panel_2.add(space_4);
+		contentPane.add("South", Panel_2);
+			
+		setTitle("GUI");
+		setSize(800, 800);    
+		setLocation(450, 300);
+		pack();
+		setVisible(true);
 	}
 	
 	public void displayBookingPage() {

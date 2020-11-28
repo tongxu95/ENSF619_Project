@@ -20,8 +20,11 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class UserInfoView extends JFrame{
-	private JTextField userName = new JTextField(20);
-	private JTextField password = new JTextField(20);
+	private JTextField userName = new JTextField(10);
+	private JTextField password = new JTextField(10);
+	private JButton login = new JButton("Login");
+	private JTextField feeRenewalStatus = new JTextField(10);
+	private JButton payAnnualFee = new JButton("pay AnnualFee");
 	private JTextField nameOfUser = new JTextField(20);
 	private JTextField addr = new JTextField(20);
 	private JTextField bank = new JTextField(20);
@@ -29,17 +32,131 @@ public class UserInfoView extends JFrame{
 	private JTextField expr_date = new JTextField(20);
 	private JTextField cvv = new JTextField(20);
 	private JTextField email = new JTextField(20);
-	private JButton login = new JButton("");
-	private JButton noAccount = new JButton("");
-	private JButton register = new JButton("");
+	private JTextField voucher = new JTextField(20);
+	private JButton register = new JButton("Register");
+	private JButton noAccount = new JButton("noAccount");
+	private JButton makePayment = new JButton("make Payment");
+	private JButton cancelSeat = new JButton("cancel Seat");	
 	private JTextField display = new JTextField(20);
-	private JButton makePayment = new JButton("");
 	
 	public UserInfoView(){
-
+		Container contentPane = getContentPane();
+		contentPane.setLayout(new GridLayout(14, 1));
+		contentPane.setSize(200, 200);
+		
+		JPanel Panel_0 = new JPanel();
+		JLabel registeredPrompt = new JLabel("----------------------------------------------------------------------------------------------------------");
+		Panel_0.add(registeredPrompt);
+		contentPane.add(Panel_0);
+		
+		JPanel Panel_1 = new JPanel();
+		JLabel userNamePrompt = new JLabel("UserName:");
+		Panel_1.add(userNamePrompt);
+		Panel_1.add(userName);	
+		JLabel spacePrompt_1 = new JLabel("                      ");
+		Panel_1.add(spacePrompt_1);
+		JLabel feeStatusPrompt = new JLabel("Fee Renewal Status:");
+		Panel_1.add(feeStatusPrompt);
+		Panel_1.add(feeRenewalStatus);		
+		contentPane.add(Panel_1);
+		
+		JPanel Panel_2 = new JPanel();
+		JLabel passwordPrompt = new JLabel("Password:");
+		Panel_2.add(passwordPrompt);
+		Panel_2.add(password);
+		Panel_2.add(login);
+		JLabel spacePrompt_2 = new JLabel("                             ");
+		Panel_2.add(spacePrompt_2);		
+		Panel_2.add(payAnnualFee);
+		contentPane.add(Panel_2);	
+		
+		JPanel Panel_3 = new JPanel();
+		JLabel informationPrompt = new JLabel("----------------------------------------------------------------------------------------------------------");
+		Panel_3.add(informationPrompt);
+		contentPane.add(Panel_3);
+		
+		JPanel Panel_4 = new JPanel();
+		JLabel namePrompt = new JLabel("     Name:");
+		Panel_4.add(namePrompt);
+		Panel_4.add(nameOfUser);
+		contentPane.add(Panel_4);	
+		
+		JPanel Panel_5 = new JPanel();
+		JLabel addressPrompt = new JLabel("  Address:");
+		Panel_5.add(addressPrompt);
+		Panel_5.add(addr);
+		contentPane.add(Panel_5);
+		
+		JPanel Panel_6 = new JPanel();
+		JLabel bankPrompt = new JLabel("      Bank:");
+		Panel_6.add(bankPrompt);
+		Panel_6.add(bank);
+		contentPane.add(Panel_6);	
+		
+		JPanel Panel_7 = new JPanel();
+		JLabel card_noPrompt = new JLabel("  Card_no:");
+		Panel_7.add(card_noPrompt);
+		Panel_7.add(card_no);
+		contentPane.add(Panel_7);	
+		
+		JPanel Panel_8 = new JPanel();
+		JLabel expr_datePrompt = new JLabel("Expr_date:");
+		Panel_8.add(expr_datePrompt);
+		Panel_8.add(expr_date);
+		contentPane.add(Panel_8);		
+		
+		JPanel Panel_9 = new JPanel();
+		JLabel cvvPrompt = new JLabel("        Cvv:");
+		Panel_9.add(cvvPrompt);
+		Panel_9.add(cvv);
+		contentPane.add(Panel_9);
+		
+		JPanel Panel_10 = new JPanel();
+		JLabel emailPrompt = new JLabel("      Email:");
+		Panel_10.add(emailPrompt);
+		Panel_10.add(email);
+		contentPane.add(Panel_10);	
+	
+		/*
+		JPanel Panel_11 = new JPanel();
+		JLabel voucherPrompt = new JLabel("   Voucher:");
+		Panel_11.add(voucherPrompt);
+		Panel_11.add(voucher);
+		contentPane.add(Panel_11);		
+		*/
+		/*
+		JPanel Panel_12 = new JPanel();
+		JLabel actionPrompt = new JLabel("Action:");
+		Panel_12.add(actionPrompt);
+		contentPane.add(Panel_12);
+		*/
+		
+		JPanel Panel_13 = new JPanel();
+		Panel_13.add(register);
+		JLabel spacePrompt_3 = new JLabel("                  ");
+		Panel_13.add(spacePrompt_3);
+		Panel_13.add(noAccount);
+		contentPane.add(Panel_13);	
+		
+		JPanel Panel_14 = new JPanel();
+		Panel_14.add(makePayment);
+		JLabel spacePrompt_4 = new JLabel("        ");
+		Panel_14.add(spacePrompt_4);
+		Panel_14.add(cancelSeat);
+		contentPane.add(Panel_14);	
+		
+		JPanel Panel_15=new JPanel();
+		JLabel messagePrompt = new JLabel("Message:");
+		Panel_15.add(messagePrompt);
+		ScrollPane messageSp=new ScrollPane();
+		Panel_15.add(messageSp);
+		messageSp.add(display);
+		messageSp.setSize(320,40);			
+		contentPane.add(Panel_15);			
+		
 		setTitle("UserInfoView");
 		setSize(800, 800);   
-		setLocation(730, 0);
+		setLocation(725, 0);
 		pack();
 		setVisible(true);
 	}
@@ -48,111 +165,67 @@ public class UserInfoView extends JFrame{
 		return userName;
 	}
 
-	public void setUserName(JTextField userName) {
-		this.userName = userName;
-	}
-
 	public JTextField getPassword() {
 		return password;
 	}
-
-	public void setPassword(JTextField password) {
-		this.password = password;
-	}
+	
+	public JTextField getFeeRenewalStatus() {
+		return feeRenewalStatus;
+	}	
 
 	public JTextField getNameOfUser() {
 		return nameOfUser;
-	}
-
-	public void setNameOfUser(JTextField nameOfUser) {
-		this.nameOfUser = nameOfUser;
 	}
 
 	public JTextField getAddr() {
 		return addr;
 	}
 
-	public void setAddr(JTextField addr) {
-		this.addr = addr;
-	}
-
 	public JTextField getBank() {
 		return bank;
-	}
-
-	public void setBank(JTextField bank) {
-		this.bank = bank;
 	}
 
 	public JTextField getCard_no() {
 		return card_no;
 	}
 
-	public void setCard_no(JTextField card_no) {
-		this.card_no = card_no;
-	}
-
 	public JTextField getExpr_date() {
 		return expr_date;
-	}
-
-	public void setExpr_date(JTextField expr_date) {
-		this.expr_date = expr_date;
 	}
 
 	public JTextField getCvv() {
 		return cvv;
 	}
 
-	public void setCvv(JTextField cvv) {
-		this.cvv = cvv;
-	}
-
 	public JTextField getEmail() {
 		return email;
-	}
-
-	public void setEmail(JTextField email) {
-		this.email = email;
 	}
 
 	public JButton getLogin() {
 		return login;
 	}
 
-	public void setLogin(JButton login) {
-		this.login = login;
+	public JButton getPayAnnualFee() {
+		return payAnnualFee;
 	}
 
 	public JButton getNoAccount() {
 		return noAccount;
 	}
 
-	public void setNoAccount(JButton noAccount) {
-		this.noAccount = noAccount;
-	}
-
 	public JButton getRegister() {
 		return register;
-	}
-
-	public void setRegister(JButton register) {
-		this.register = register;
 	}
 
 	public JTextField getDisplay() {
 		return display;
 	}
 
-	public void setDisplay(JTextField display) {
-		this.display = display;
-	}
-
 	public JButton getMakePayment() {
 		return makePayment;
 	}
-
-	public void setMakePayment(JButton makePayment) {
-		this.makePayment = makePayment;
-	}
+	
+	public JButton getCancelSeat() {
+		return cancelSeat;
+	}	
 }
