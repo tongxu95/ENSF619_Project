@@ -47,3 +47,29 @@ CREATE TABLE CREDITCARD (
         ON UPDATE CASCADE
 );
 
+INSERT INTO BANK VALUES
+	(10000,'Scotiabank'),
+	(10001,'TD Canada Trust'),
+    (10002,'CIBC'),
+    (10003,'RBC'),
+    (10004,'BMO');
+    
+INSERT INTO CREDITCARD VALUES
+	(10000,'4929844610628530',138,0524),
+    (10000,'2720999154954117',290,0323),
+    (10001,'4532316556491131',488,0921),
+    (10002,'5343911733879095',881,0122),
+    (10003,'5409797916016568',723,0722),
+    (10004,'6011014819581872',631,0922);
+
+INSERT INTO VOUCHER VALUES 
+	(20000,14.95,'2021-11-28'),
+    (20001,12.71,'2021-01-20'),
+    (20002,17.95,'2021-05-12'),
+    (20003,15.26,'2021-06-26'),
+    (20004,14.95,'2020-12-30');
+
+INSERT INTO REGISTERED VALUES
+	('alfred1996', 'Pa$sword','Alfred L. McCray','718 Village Green Road, Lake Verde, PE','Scotiabank','alfred1996@gmail.com','4929844610628530',138,0524),
+    ('Mike331','Rankin861221','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','TD Canada Trust','mike331@hotmail.com','2720999154954117',290,0323),
+    ('Lorraine2020','LThomson820721','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','BMO','thomson331@shaw.ca','4532316556491131',488,0921);
