@@ -22,6 +22,7 @@ public class SeatMap {
      */
     public SeatMap() {
         this.seats = new Seat[10][8]; // default size
+        
         for (int i = 0; i < this.seats.length; i++) {
             for (int j = 0; j < this.seats[i].length; j++) {
                 this.seats[i][j] = new Seat();
