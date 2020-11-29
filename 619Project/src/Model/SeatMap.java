@@ -18,11 +18,25 @@ public class SeatMap {
     private Seat[][] seats;
 
     /**
-     * Initialize a seatmap with 
+     * Initialize a default seatmap
      */
     public SeatMap() {
-        this.seats = new Seat[10][8]; // default size
+        this.seats = new Seat[8][10]; // default size
         
+        for (int i = 0; i < this.seats.length; i++) {
+            for (int j = 0; j < this.seats[i].length; j++) {
+                this.seats[i][j] = new Seat();
+            }
+        }
+    }
+    /**
+     * Initalize a seatmap given another seatmap
+     */
+    public SeatMap(SeatMap toCopy) {
+        int rows = toCopy.displaySeats().length;
+        int cols = toCopy.displaySeats()[0].length;
+
+        this.seats = new Seat[rows][cols];
         for (int i = 0; i < this.seats.length; i++) {
             for (int j = 0; j < this.seats[i].length; j++) {
                 this.seats[i][j] = new Seat();

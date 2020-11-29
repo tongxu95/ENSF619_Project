@@ -19,6 +19,9 @@ public class Movies {
     public Movies(String name) {
         this.name = name;
     }
+    public Movies() {
+        this.name = "";
+    }
 
     public String getName() {
         return name;

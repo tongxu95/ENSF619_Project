@@ -77,6 +77,14 @@ public class Theater {
         return;
     }
 
+    /**
+     * Add a theater room to the movie theater
+     */
+    public void addTheaterRoom(TheaterRoom theaterRoom) {
+        rooms.add(theaterRoom);
+        return;
+    }
+    
     /*
         GET FUNCTIONS
     */
