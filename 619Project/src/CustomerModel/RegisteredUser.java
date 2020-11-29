@@ -1,6 +1,7 @@
 package CustomerModel;
 
 import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import Model.Movies;
 
@@ -21,7 +22,7 @@ import Model.Movies;
 public class RegisteredUser extends User {
     private String username, password;
     
-    private LocalDate feeRenewDate;
+    private Date feeRenewDate;
     
     public RegisteredUser(String username, String password) {
     	this.username = username;
@@ -34,13 +35,19 @@ public class RegisteredUser extends User {
     	this.password = pwd;
     }
     
+    public RegisteredUser(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email, String username, String pwd, Date renew_date) {
+    	super(name, addr, bank, card_no, expr_date, cvv, email);
+    	this.username = username;
+    	this.password = pwd;
+    	feeRenewDate = renew_date;
+    }
+    
     /**
      * Return true is account is still active or false if renewal is required.
      * @return true is account is active and false otherwise
      */
     public boolean checkFeeRenewal() {
-    	LocalDate today = LocalDate.now(); 
-    	if (feeRenewDate == null || feeRenewDate.compareTo(today) < 0)
+    	if (feeRenewDate == null || feeRenewDate.compareTo(Date.valueOf(LocalDate.now())) < 0)
     		return false;
     	else 
     		return true;
@@ -51,7 +58,7 @@ public class RegisteredUser extends User {
 	}
     
 	public void paidAnnualFee() {
-		feeRenewDate = LocalDate.now().plusDays(365);
+		feeRenewDate = Date.valueOf(LocalDate.now().plusDays(365));
 	}
 	
 

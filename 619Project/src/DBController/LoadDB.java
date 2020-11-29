@@ -78,6 +78,7 @@ public class LoadDB {
 			do {
 				String username = rs.getString("Username");
 				String password = rs.getString("Password");
+				Date renewDate = rs.getDate("Fee_renew_date");
 				String name = rs.getString("Name");
 				String addr = rs.getString("Address");
 				String bank = rs.getString("Bank");
@@ -85,7 +86,7 @@ public class LoadDB {
 				long card_no = Long.parseLong(rs.getString("Card_no"));
 				int card_cvv = rs.getInt("Card_cvv");
 				int card_exp = rs.getInt("Card_exp");
-				regUsers.put(username, new RegisteredUser(name, addr, bank, card_no, card_exp, card_cvv, email, username, password));
+				regUsers.put(username, new RegisteredUser(name, addr, bank, card_no, card_exp, card_cvv, email, username, password, renewDate));
 
 			} while (rs.next());
 			

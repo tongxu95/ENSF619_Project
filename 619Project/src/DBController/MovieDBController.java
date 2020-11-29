@@ -37,7 +37,7 @@ public class MovieDBController {
             
             // If this fails make sure your connectionInfo and login/password are correct
             jdbc_connection = DriverManager.getConnection(connectionInfo, login, password);
-            System.out.println("Connected to: " + connectionInfo + "\n");
+            System.out.println("Connected to: " + connectionInfo);
         }
         catch(SQLException e) { e.printStackTrace(); }
         catch(Exception e) { e.printStackTrace(); }
@@ -54,7 +54,7 @@ public class MovieDBController {
 			statement = jdbc_connection.prepareStatement(sql);
 			
 			ResultSet movies = statement.executeQuery();
-			System.out.println("Movies:");
+			System.out.println("\nMovies:");
 			while(movies.next())
 			{
 				System.out.println(movies.getString("Name"));
@@ -80,7 +80,7 @@ public class MovieDBController {
 			statement = jdbc_connection.prepareStatement(sql);
 			
 			ResultSet theaters = statement.executeQuery();
-			System.out.println("Theaters:");
+			System.out.println("\nTheaters:");
 			while(theaters.next())
 			{
                 System.out.println(theaters.getString("Name"));    

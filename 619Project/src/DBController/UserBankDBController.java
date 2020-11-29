@@ -13,9 +13,9 @@ public class UserBankDBController {
 	private final String DB_URL = "jdbc:mysql://localhost";
 
 	// Database credentials
-	private final String USERNAME = "root";
-	private final String PASSWORD = "JennyXu1020";
-	// TODO: fill in password
+	private final String USERNAME = "";
+	private final String PASSWORD = "";
+	// TODO: fill in login and password
 	
 	// Attributes
 	protected Connection conn;//Object of type connection from the JDBC class that deals with connecting to 

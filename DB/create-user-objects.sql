@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS REGISTERED;
 CREATE TABLE REGISTERED (
   Username				varchar(15) NOT NULL,
   Password				varchar(15) NOT NULL,
+  Fee_renew_date		date,
   Name					varchar(50),
   Address		        varchar(50),
   Bank					varchar(15),
@@ -69,6 +70,6 @@ INSERT INTO VOUCHER VALUES
     (20004,14.95,'2020-12-30');
 
 INSERT INTO REGISTERED VALUES
-	('alfred96', 'Pa$sword','Alfred L. McCray','718 Village Green Road, Lake Verde, PE','Scotiabank','alfred1996@gmail.com','4929844610628530',138,0524),
-    ('Mike331','M@Rankin','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','TD Canada Trust','mike331@hotmail.com','2720999154954117',290,0323),
-    ('Lorraine20','L*Thomson','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','BMO','thomson331@shaw.ca','4532316556491131',488,0921);
+	('alfred96', 'Pa$sword','2021-05-21','Alfred L. McCray','718 Village Green Road, Lake Verde, PE','Scotiabank','alfred1996@gmail.com','4929844610628530',138,0524),
+    ('Mike331','M@Rankin','2020-12-21','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','TD Canada Trust','mike331@hotmail.com','2720999154954117',290,0323),
+    ('Lorraine20','L*Thomson','2021,10-31','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','BMO','thomson331@shaw.ca','4532316556491131',488,0921);
