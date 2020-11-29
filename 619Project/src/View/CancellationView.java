@@ -60,11 +60,11 @@ public class CancellationView extends JFrame{
 		pack();
 		setVisible(true);		
 	}
-
+	
 	public JTextField getBookingID() {
 		return bookingID;
 	}
-
+	
 	public JTextArea getDisplay() {
 		return display;
 	}
@@ -79,5 +79,13 @@ public class CancellationView extends JFrame{
 	
 	public JButton getCancel() {
 		return cancel;
-	}		
+	}	
+
+	public void clearDisplay() {
+		display.setText("");
+	}
+
+	public void setDisplay(String text) {
+		display.setText(text);
+	}
 }

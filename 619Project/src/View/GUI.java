@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GUI extends JFrame{
-	private CancellationView cancellPage;
+	private CancellationView cancelPage;
 	private BookingView bookingPage;
 	
 	private JButton booking = new JButton("Booking Ticket");
@@ -54,7 +54,6 @@ public class GUI extends JFrame{
 		setTitle("Ticket Reservation System");
 		setSize(300, 120);    
 		setLocation(450, 300);
-//		pack();
 		setVisible(true);
 	}
 	
@@ -63,15 +62,15 @@ public class GUI extends JFrame{
 	}
 	
 	public void displayCancellationPage() {
-		cancellPage = new CancellationView();
+		cancelPage = new CancellationView();
 	}	
 
-	public CancellationView getCancellPage() {
-		return cancellPage;
+	public CancellationView getCancelPage() {
+		return cancelPage;
 	}
 
-	public void setCancellPage(CancellationView cancellPage) {
-		this.cancellPage = cancellPage;
+	public void setCancelPage(CancellationView cancelPage) {
+		this.cancelPage = cancelPage;
 	}
 
 	public BookingView getBookingPage() {
@@ -96,5 +95,14 @@ public class GUI extends JFrame{
 
 	public void setCancellation(JButton cancellation) {
 		this.cancellation = cancellation;
+	}
+	
+	public JTextField getBookingID() {
+		return getCancelPage().getBookingID();
+	}
+	
+	public void setCancellationDisplay(String text) {
+		getCancelPage().clearDisplay();
+		getCancelPage().setDisplay(text);
 	}
 }
