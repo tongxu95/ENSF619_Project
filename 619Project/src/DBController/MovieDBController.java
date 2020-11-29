@@ -136,5 +136,43 @@ public class MovieDBController {
 			e.printStackTrace();
         }
     }
+    
+    /**
+     * retieve booking from database, and occupy the corresponding seat
+     */
+    public void retrieveBookings(HashMap<Integer, MovieTicket> list, TheaterCatalogue theaters) {
+        try {
+            String sql = "SELECT * FROM BOOKING";
+            statement = jdbc_connection.prepareStatement(sql);
+            ResultSet bookings = statement.executeQuery();
+            System.out.println("ShowTimes: ");
 
+            while (bookings.next()) {
+                // intent: for showTimeID = 1, pull index 1 showtime by scanning through theatercatalogue -> theater -> showtime
+                // 1st showtime found = index 0
+                // 2nd showtime found = index 1 etc...
+                int showTimeIndex = bookings.getInt("ShowTimeID");
+                int showTimeCount = 0;
+                // index through theaters
+                for (int i = 0; i < theaters.viewTheaters().size(); i++) {
+                    for (int j = 0; j < theaters.viewTheaters().get(i).getShowtimes().size(); j++) {
+                        showTimeCount += 1;
+                        // if at correct index, at the seat
+                        if (showTimeIndex == showTimeCount) {
+                            // populate the seat in the model
+                            MovieTicket ticket = theaters.viewTheaters().get(i).getShowtimes().get(j).selectSeat(bookings.getInt("SeatRow"),bookings.getInt("SeatColumn"), bookings.getInt("Booking_id"), bookings.getString("userType"));
+                            // print the movieticket to be used in the hashmap
+                            list.put(bookings.getInt("Booking_id"), ticket);
+                            System.out.println("Another Seat Occupied and recorded in bookings list.");
+                        }
+                    }
+                }
+            }
+
+        }catch (SQLException e) {
+			e.printStackTrace();
+        }
+    }
+    
+    
 }
