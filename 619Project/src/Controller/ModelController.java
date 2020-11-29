@@ -558,8 +558,12 @@ public class ModelController implements ActionListener{
 			if (ticket == null) {
 				gui.setCancellationDisplay("Not a valid booking ID!");
 			} else {
-				gui.setCancellationDisplay("Booking ID found!");
-				showUserInfo_Cancellation();
+				if(bookingManager.verifyCancellation(ticket)) {
+					gui.setCancellationDisplay("Booking ID found!");
+					return true;
+				} else {
+					gui.setCancellationDisplay("Cannot cancel booking within 72 hours to showtime!");
+				}
 			}
 		}
 		return false;
@@ -618,7 +622,7 @@ public class ModelController implements ActionListener{
 			showUserInfo_Booking();
 		}	
 		else if (gui.getCancelPage() != null && e.getSource() == gui.getCancelPage().getCancel()) {
-			validateBooking();
+			if (validateBooking()) showUserInfo_Cancellation();
 		}	
 		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getLogin())
 				|| (gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getLogin())) {

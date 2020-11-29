@@ -94,13 +94,10 @@ public class BookingManager {
     }
 
     /**
-     * @return boolean if thet ticket is cancelled, indicated by '0' in the bookingid
+     * @return boolean if the ticket can be cancelled (cancellation request made 72 hours before showtime)
      */
     public boolean verifyCancellation(MovieTicket ticket) {
-        if (ticket.getBookingId() == 0) {
-            return true;
-        }
-        else return false;
+        return ticket.checkCancellation();
     }
 
     /**

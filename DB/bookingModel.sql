@@ -42,17 +42,17 @@ CREATE TABLE SHOWTIME (
 );
 INSERT INTO SHOWTIME (ShowTimeID, MovieName, TheaterName, TheaterNumber, ShowDate, ShowTime, price)
 VALUES
-(1, "Dodgeball", "GreatMoviesHere", 1, '2020-12-01', '10:00', 15),
-(2, "Zombieland", "GreatMoviesHere", 1, '2020-12-02', '10:00', 15),
-(3, "Dodgeball", "GreatMoviesHere", 1, '2020-12-03', '10:00', 15),
-(4, "Zombieland", "GreatMoviesHere", 1, '2020-12-04', '10:00', 15),
-(5, "The Lord of the Rings", "GreatMoviesHere", 1, '2020-12-05', '10:00', 15),
-(6, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-01', '10:00', 10),
-(7, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-02', '10:00', 10),
-(8, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-03', '10:00', 10),
-(9, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-04', '10:00', 10),
-(10, "21 Jump Street", "WeOnlyPlayBottomTierComedies", 1, '2020-12-01', '10:00', 2),
-(11, "21 Jump Street", "WeOnlyPlayBottomTierComedies", 1, '2020-12-02', '10:00', 2);
+(1, "Dodgeball", "GreatMoviesHere", 1, '2020-12-05', '10:00', 15),
+(2, "Zombieland", "GreatMoviesHere", 1, '2020-12-06', '10:00', 15),
+(3, "Dodgeball", "GreatMoviesHere", 1, '2020-12-07', '10:00', 15),
+(4, "Zombieland", "GreatMoviesHere", 1, '2020-12-08', '10:00', 15),
+(5, "The Lord of the Rings", "GreatMoviesHere", 1, '2020-12-09', '10:00', 15),
+(6, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-05', '10:00', 10),
+(7, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-06', '10:00', 10),
+(8, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-07', '10:00', 10),
+(9, "The Avengers", "OnlyMediocreMovies", 1, '2020-12-08', '10:00', 10),
+(10, "21 Jump Street", "WeOnlyPlayBottomTierComedies", 1, '2020-12-05', '10:00', 2),
+(11, "21 Jump Street", "WeOnlyPlayBottomTierComedies", 1, '2020-12-06', '10:00', 2);
 
 DROP TABLE IF EXISTS BOOKING;
 CREATE TABLE BOOKING (

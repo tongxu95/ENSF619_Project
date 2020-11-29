@@ -13,6 +13,12 @@ package Model;
  *  Date: November 30 2020
  */
 
+import java.util.Date;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class MovieTicket {
     private ShowTime showtime;
     private int row;
@@ -62,6 +68,13 @@ public class MovieTicket {
 
     public String getUserType() {
         return this.userType;
+    }
+    
+    public boolean checkCancellation() {
+    	LocalDate date = LocalDate.parse(showtime.getDate().toString());
+    	LocalTime time = LocalTime.parse(showtime.getTime().toString());
+    	LocalDateTime dt = LocalDateTime.of(date, time);
+    	return LocalDateTime.now().plusHours(72).compareTo(dt) <= 0;
     }
     
     @Override
