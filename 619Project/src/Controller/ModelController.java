@@ -30,7 +30,8 @@ import CustomException.InvalidUsernameException;
 import CustomerModel.CustomerManager;
 import CustomerModel.RegisteredUser;
 import CustomerModel.Voucher;
-import DBController.DBController;
+import DBController.LoadDB;
+import DBController.MovieDBController;
 import FinancialInstitute.Bank;
 import FinancialInstitute.BankManager;
 import Model.BookingManager;
@@ -633,46 +634,5 @@ public class ModelController implements ActionListener{
 		}
 	}
 
-	/**
-	 * main function
-	 * @param args
-	 * @throws IOException
-	 */
-	public static void main (String [] args) throws IOException {
-		DBController db = new DBController();
-		
-		//load movies from mysql
-		MovieCatalogue movies = new MovieCatalogue();
-		
-        ArrayList<Movies> movieList = db.selectMovies();
-        for (int i = 0; i< movieList.size(); i++) {
-            movies.addMovie(movieList.get(i));
-        }		
-		
-		//load theaters from mysql
-		TheaterCatalogue theaters = new TheaterCatalogue();
-        ArrayList<Theater> theaterList = db.selectTheaters();
-        for (int i = 0; i < theaterList.size(); i++) {
-            theaters.addTheater(theaterList.get(i));
-        }
-		
-		//load booking from mysql 
-		HashMap<Integer, MovieTicket> bookings = new HashMap<Integer, MovieTicket>();
-		
-		
-		//build BookingManager object
-		BookingManager bookingManager = new BookingManager(movies, theaters, bookings);
 
-		//build CustomerManager object
-		Map<String, RegisteredUser> registeredUser = null;
-		Map<Integer, Voucher> voucher = null;
-		CustomerManager customerManager = new CustomerManager(registeredUser, voucher);
-
-		//build BankManager object
-		Map<String, Bank> banks = null;
-		BankManager bankManager = new BankManager(banks);
-
-		//build modelController object
-		ModelController modelController = new ModelController(new GUI(), bookingManager, customerManager, bankManager);
-	}	
 }

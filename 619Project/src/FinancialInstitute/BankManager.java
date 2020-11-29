@@ -24,7 +24,7 @@ public class BankManager {
     	this.banks = banks;
     }
     
-    public boolean processTransaction(String bank, int card_no, int exp_date, int cvv, double payment) throws InvalidBankException {
+    public boolean processTransaction(String bank, long card_no, int exp_date, int cvv, double payment) throws InvalidBankException {
     	Bank theBank = findBank(bank);
     	if (theBank == null) throw new InvalidBankException();
     	return theBank.processTransaction(card_no, exp_date, cvv, payment);

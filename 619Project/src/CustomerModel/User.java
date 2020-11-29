@@ -22,13 +22,13 @@ public class User {
 	private String addr;
 	private String financial_institution;
 	private String email;
-	private int credit_card_no;
+	private long credit_card_no;
 	private int card_cvv;
 	private int card_exp;
 	
 	public User() {}
 	
-	public User(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email) {
+	public User(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email) {
 		this.name = name;
 		this.addr = addr;
 		this.financial_institution = bank;
@@ -61,7 +61,7 @@ public class User {
 		return email;
 	}
 
-	public int getCredit_card_no() {
+	public long getCredit_card_no() {
 		return credit_card_no;
 	}
 

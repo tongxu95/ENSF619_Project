@@ -34,9 +34,6 @@ public class GUI extends JFrame{
 		layout.setVgap(20);
 		contentPane.setLayout(layout);
 		
-		JLabel titlePrompt = new JLabel("           Ticket Reservation System");
-		contentPane.add("North", titlePrompt);
-		
 		JPanel Panel_1 = new JPanel();
 		JLabel space_1 = new JLabel("    ");
 		Panel_1.add(space_1);
@@ -54,10 +51,10 @@ public class GUI extends JFrame{
 		Panel_2.add(space_4);
 		contentPane.add("South", Panel_2);
 			
-		setTitle("GUI");
-		setSize(800, 800);    
+		setTitle("Ticket Reservation System");
+		setSize(300, 120);    
 		setLocation(450, 300);
-		pack();
+//		pack();
 		setVisible(true);
 	}
 	

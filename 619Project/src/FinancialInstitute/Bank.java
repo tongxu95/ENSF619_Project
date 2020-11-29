@@ -27,7 +27,7 @@ public class Bank {
 		this.creditCards = creditCards;
 	}
 	
-	public boolean processTransaction(int card_no, int exp_date, int cvv, double payment) {
+	public boolean processTransaction(long card_no, int exp_date, int cvv, double payment) {
 		for (CreditCard card : creditCards) {
 			if (card.getCardNo() == card_no &&
 					card.getExpDate() == exp_date &&
