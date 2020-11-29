@@ -16,8 +16,8 @@ public class LoadDB {
 	
 	public static Map<String, Bank> LoadBanks() {
 		ResultSet rs = movieDB.getBanks();
-		ArrayList<String> bankNames = new ArrayList<>();
-		Map<String, Bank> banks = new HashMap<>();
+		ArrayList<String> bankNames = new ArrayList<String>();
+		Map<String, Bank> banks = new HashMap<String, Bank>();
 		ArrayList<CreditCard> cards;
 		
 		try {
@@ -30,7 +30,7 @@ public class LoadDB {
 				String bankName = bankNames.get(i);
 				rs = movieDB.getCreditCards(bankName);
 				
-				cards  = new ArrayList<>();
+				cards  = new ArrayList<CreditCard>();
 				do {
 					long card_no = Long.parseLong(rs.getString("Card_no"));
 					int card_cvv = rs.getInt("Card_cvv");
@@ -52,7 +52,7 @@ public class LoadDB {
 	
 	public static Map<Integer, Voucher> loadVouchers() {
 		ResultSet rs = movieDB.getVouchers();
-		Map<Integer, Voucher> vouchers = new HashMap<>();
+		Map<Integer, Voucher> vouchers = new HashMap<Integer, Voucher>();
 		
 		try {
 			do {
@@ -72,7 +72,7 @@ public class LoadDB {
 	
 	public static Map<String, RegisteredUser> loadRegUsers() {
 		ResultSet rs = movieDB.getRegUsers();
-		Map<String, RegisteredUser> regUsers = new HashMap<>();
+		Map<String, RegisteredUser> regUsers = new HashMap<String, RegisteredUser>();
 		
 		try {
 			do {
@@ -82,7 +82,7 @@ public class LoadDB {
 				String addr = rs.getString("Address");
 				String bank = rs.getString("Bank");
 				String email = rs.getString("Email");
-				long card_no = Long.parseLong(rs.getString("Card_no"));
+				int card_no = Integer.valueOf(rs.getString("Card_no"));
 				int card_cvv = rs.getInt("Card_cvv");
 				int card_exp = rs.getInt("Card_exp");
 				regUsers.put(username, new RegisteredUser(name, addr, bank, card_no, card_exp, card_cvv, email, username, password));

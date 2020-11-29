@@ -16,12 +16,16 @@ package View;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.sql.Time;
+import java.util.Date;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
+
+import Model.ShowTime;
 
 public class BookingView extends JFrame{
 	private JButton viewMovie = new JButton("search Movie");
@@ -33,22 +37,22 @@ public class BookingView extends JFrame{
 	private JButton viewAllTheater = new JButton("view All Theaters");
 	private JComboBox<String> theaterList = new JComboBox<String>();
 	private JComboBox<String> theaterRoom = new JComboBox<String>();
-	private JButton viewTheaterRoom = new JButton("View Theater Room");
+	private JButton viewTheaterRoom = new JButton("view Theater Room");
 	private JComboBox<String> date = new JComboBox<String>();
-	private JButton searchShowTimes = new JButton("search ShowTimes");	
-	private JComboBox<String> showTimes = new JComboBox<String>();	
-	private JButton selectSeat = new JButton("       select Seat      ");
+	private JComboBox<String> timeOfDate = new JComboBox<String>();
+	private JButton searchShowTimes = new JButton("  view ShowTimes");	
+	private JButton selectSeat = new JButton("         view Seat      ");
 	private JButton[][] seatMap = new JButton[5][10];
 	private JComboBox<String> seatdisplay = new JComboBox<String>();
 	private JButton getPrice = new JButton("get Price");
 	private JTextField price = new JTextField(25);
 	private JButton login = new JButton("Login");
 	private JButton processPayment = new JButton("Process Payment");
-	private JTextArea ticket = new JTextArea("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\nqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+	private JTextArea ticket = new JTextArea("");
 		
 	private UserInfoView userInfo;
 	
-	public BookingView() {		
+	public BookingView() {	
 		Container contentPane = getContentPane();
 		contentPane.setLayout(new GridLayout(11, 1, 2, 2));
 		
@@ -69,7 +73,7 @@ public class BookingView extends JFrame{
 		ScrollPane movieSp=new ScrollPane();
 		Panel_2.add(movieSp);
 		movieSp.add(movieList);
-		movieSp.setSize(400,40);
+		movieSp.setSize(428,40);
 		contentPane.add(Panel_2);
 		
 		JPanel Panel_3 = new JPanel();
@@ -86,10 +90,17 @@ public class BookingView extends JFrame{
 		ScrollPane theaterSp=new ScrollPane();
 		Panel_4.add(theaterSp);
 		theaterSp.add(theaterList);
-		theaterSp.setSize(400,40);	
+		theaterSp.setSize(428,40);	
 		contentPane.add(Panel_4);
+			
+		JPanel Panel_6_1=new JPanel();
+		ScrollPane roomSp=new ScrollPane();
+		Panel_6_1.add(roomSp);
+		roomSp.add(theaterRoom);
+		roomSp.setSize(280,40);	
+		Panel_6_1.add(viewTheaterRoom);
+		contentPane.add(Panel_6_1);	
 		
-		/*
 		JPanel Panel_5=new JPanel();
 		JLabel datePrompt = new JLabel("Select Date:");
 		Panel_5.add(datePrompt);	
@@ -103,33 +114,14 @@ public class BookingView extends JFrame{
 		date.addItem(sdf.format(new Date(time + 86400000*4)));
 		date.addItem(sdf.format(new Date(time + 86400000*5)));
 		date.addItem(sdf.format(new Date(time + 86400000*6)));
-		ScrollPane showtimeSp=new ScrollPane();
-		Panel_5.add(showtimeSp);
-		showtimeSp.add(date);
-		showtimeSp.setSize(200,40);	
-		Panel_5.add(searchShowTimes);
-		contentPane.add(Panel_5);
-		
-		JPanel Panel_6=new JPanel();
-		ScrollPane timesSp=new ScrollPane();
-		Panel_6.add(timesSp);
-		timesSp.add(showTimes);
-		timesSp.setSize(400,40);	
-		contentPane.add(Panel_6);*/	
-		
-		JPanel Panel_6_1=new JPanel();
-		ScrollPane roomSp=new ScrollPane();
-		Panel_6_1.add(roomSp);
-		roomSp.add(theaterRoom);
-		roomSp.setSize(200,40);	
-		Panel_6_1.add(viewTheaterRoom);
-		contentPane.add(Panel_6_1);	
-		
-		JPanel Panel_5=new JPanel();
-		ScrollPane timesSp=new ScrollPane();
-		Panel_5.add(timesSp);
-		timesSp.add(date);
-		timesSp.setSize(200,40);	
+		ScrollPane dateSp=new ScrollPane();
+		Panel_5.add(dateSp);
+		dateSp.add(date);
+		dateSp.setSize(100,40);	
+		ScrollPane timeSp=new ScrollPane();
+		Panel_5.add(timeSp);
+		timeSp.add(timeOfDate);
+		timeSp.setSize(100,40);			
 		Panel_5.add(searchShowTimes);
 		contentPane.add(Panel_5);		
 
@@ -137,7 +129,7 @@ public class BookingView extends JFrame{
 		ScrollPane seatSp=new ScrollPane();
 		Panel_7.add(seatSp);
 		seatSp.add(seatdisplay);
-		seatSp.setSize(200,40);	
+		seatSp.setSize(280,40);	
 		Panel_7.add(selectSeat);
 		contentPane.add(Panel_7);		
 /*		
@@ -208,11 +200,7 @@ public class BookingView extends JFrame{
 	public JButton getSearchShowTimes() {
 		return searchShowTimes;
 	}	
-	
-	public JComboBox<String> getShowTimes() {
-		return showTimes;
-	}
-	
+		
 	public JButton getSelectSeat() {
 		return selectSeat;
 	}		
@@ -252,4 +240,16 @@ public class BookingView extends JFrame{
 	public JButton getViewTheaterRoom() {
 		return viewTheaterRoom;
 	}	
+	
+	public JComboBox getDate() {
+		return date;
+	}
+	
+	public JComboBox getTimeOfDate() {
+		return timeOfDate;
+	}
+	
+	public JTextArea getTicket() {
+		return ticket;
+	}
 }

@@ -18,19 +18,23 @@ import Model.MovieTicket;
 
 public class User {
 
-	String name, addr, financial_institution, email;
-	long credit_card_no;
-	int card_cvv, card_exp;
+	private String name;
+	private String addr;
+	private String financial_institution;
+	private String email;
+	private int credit_card_no;
+	private int card_cvv;
+	private int card_exp;
 	
 	public User() {}
 	
-	public User(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email) {
+	public User(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email) {
 		this.name = name;
 		this.addr = addr;
-		financial_institution = bank;
-		credit_card_no = card_no;
-		card_exp = expr_date;
-		card_cvv = cvv;
+		this.financial_institution = bank;
+		this.credit_card_no = card_no;
+		this.card_exp = expr_date;
+		this.card_cvv = cvv;
 		this.email = email;
 		
 	}
@@ -39,6 +43,34 @@ public class User {
 		String confirmation = "Thank you for your purchase.\nPlease find below your ticket:\n";
 		confirmation += ticket.toString();
 		return confirmation;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public String getFinancial_institution() {
+		return financial_institution;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public int getCredit_card_no() {
+		return credit_card_no;
+	}
+
+	public int getCard_exp() {
+		return card_exp;
+	}
+
+	public int getCard_cvv() {
+		return card_cvv;
 	}
     
 }

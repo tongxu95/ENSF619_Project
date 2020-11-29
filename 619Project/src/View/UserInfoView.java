@@ -24,7 +24,6 @@ public class UserInfoView extends JFrame{
 	private JTextField password = new JTextField(10);
 	private JButton login = new JButton("Login");
 	private JTextField feeRenewalStatus = new JTextField(10);
-	private JButton payAnnualFee = new JButton("pay AnnualFee");
 	private JTextField nameOfUser = new JTextField(20);
 	private JTextField addr = new JTextField(20);
 	private JTextField bank = new JTextField(20);
@@ -41,7 +40,7 @@ public class UserInfoView extends JFrame{
 	
 	public UserInfoView(){
 		Container contentPane = getContentPane();
-		contentPane.setLayout(new GridLayout(14, 1));
+		contentPane.setLayout(new GridLayout(15, 1));
 		contentPane.setSize(200, 200);
 		
 		JPanel Panel_0 = new JPanel();
@@ -65,9 +64,8 @@ public class UserInfoView extends JFrame{
 		Panel_2.add(passwordPrompt);
 		Panel_2.add(password);
 		Panel_2.add(login);
-		JLabel spacePrompt_2 = new JLabel("                             ");
+		JLabel spacePrompt_2 = new JLabel("                                                                 ");
 		Panel_2.add(spacePrompt_2);		
-		Panel_2.add(payAnnualFee);
 		contentPane.add(Panel_2);	
 		
 		JPanel Panel_3 = new JPanel();
@@ -117,13 +115,12 @@ public class UserInfoView extends JFrame{
 		Panel_10.add(email);
 		contentPane.add(Panel_10);	
 	
-		/*
 		JPanel Panel_11 = new JPanel();
 		JLabel voucherPrompt = new JLabel("   Voucher:");
 		Panel_11.add(voucherPrompt);
 		Panel_11.add(voucher);
 		contentPane.add(Panel_11);		
-		*/
+
 		/*
 		JPanel Panel_12 = new JPanel();
 		JLabel actionPrompt = new JLabel("Action:");
@@ -146,7 +143,7 @@ public class UserInfoView extends JFrame{
 		contentPane.add(Panel_14);	
 		
 		JPanel Panel_15=new JPanel();
-		JLabel messagePrompt = new JLabel("Message:");
+		JLabel messagePrompt = new JLabel("User Type:");
 		Panel_15.add(messagePrompt);
 		ScrollPane messageSp=new ScrollPane();
 		Panel_15.add(messageSp);
@@ -203,10 +200,6 @@ public class UserInfoView extends JFrame{
 
 	public JButton getLogin() {
 		return login;
-	}
-
-	public JButton getPayAnnualFee() {
-		return payAnnualFee;
 	}
 
 	public JButton getNoAccount() {

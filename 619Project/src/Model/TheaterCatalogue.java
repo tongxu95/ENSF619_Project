@@ -51,7 +51,7 @@ public class TheaterCatalogue {
      * return list of theaters that offer a movie
      */
     public ArrayList<Theater> searchTheaterForMovie(Movies movie) {
-        ArrayList<Theater> output = new ArrayList<>();
+        ArrayList<Theater> output = new ArrayList<Theater>();
 
         for (int i = 0; i < theaters.size(); i++) {
             if (theaters.get(i).searchShowTimes(movie).size() > 0) 

@@ -36,7 +36,7 @@ public class Theater {
      * @return
      */
     public ArrayList<ShowTime> searchShowTimes(Movies movie) {
-        ArrayList<ShowTime> output = new ArrayList<>();
+        ArrayList<ShowTime> output = new ArrayList<ShowTime>();
 
         for (int i = 0; i < showtimes.size(); i++) {
             if (showtimes.get(i).getMovie().getName() == movie.getName()) {
@@ -53,7 +53,7 @@ public class Theater {
      * @return 
      */
     public ArrayList<ShowTime> searchShowTimesByDate(Movies movie, Date date) {
-        ArrayList<ShowTime> output = new ArrayList<>();
+        ArrayList<ShowTime> output = new ArrayList<ShowTime>();
 
         for (int i = 0; i < showtimes.size(); i++) {
             if (showtimes.get(i).getMovie().getName() == movie.getName()) {

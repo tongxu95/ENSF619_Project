@@ -121,6 +121,10 @@ public class BookingManager {
     public MovieTicket validateBooking(int booking_id) {
         return bookings.get(booking_id); // returns null if no mapping for booking_id, returns movieticket if exists
     }
+    
+    public void addBooking(int bookingID, MovieTicket ticket) {
+    	bookings.put(bookingID, ticket);
+    }
 
     /*
         TODO LIST_OF_ITEMS
