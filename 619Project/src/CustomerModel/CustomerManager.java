@@ -4,9 +4,7 @@ import java.util.Map;
 import java.util.Random;
 
 import Model.MovieTicket;
-import CustomException.InvalidUsernameException;
-import CustomException.InvalidPasswordException;
-import CustomException.InvalidVoucherException;
+import CustomException.*;
 
 /*
  *  CustomerManager.java
@@ -74,13 +72,17 @@ public class CustomerManager {
     	return myVoucher.toString();
     }
     
-    public double useVoucher(int voucherID, double price) throws InvalidVoucherException {
+    public double useVoucher(int voucherID, double price) throws InvalidVoucherException,
+    ExpiredVoucherException {
     	Voucher myVoucher = vouchers.get(voucherID);
     	if (myVoucher == null) throw new InvalidVoucherException();
     	// if remainingBalance if greater than zero, remove voucher
-    	double remainingBalance = myVoucher.useVoucher(price);
-    	if (remainingBalance > 0) vouchers.remove(voucherID);
-    	return remainingBalance;
+    	else {
+    		if (! myVoucher.isValid()) throw new ExpiredVoucherException();
+        	double remainingBalance = myVoucher.useVoucher(price);
+        	if (remainingBalance > 0) vouchers.remove(voucherID);
+        	return remainingBalance;
+    	}
     }
     
     public double getVoucherCredit(int voucherID) throws InvalidVoucherException {

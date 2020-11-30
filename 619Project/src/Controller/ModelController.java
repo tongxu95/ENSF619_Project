@@ -20,9 +20,7 @@ import java.sql.Time;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 
-import CustomException.InvalidBankException;
-import CustomException.InvalidPasswordException;
-import CustomException.InvalidUsernameException;
+import CustomException.*;
 import CustomerModel.CustomerManager;
 import CustomerModel.RegisteredUser;
 import CustomerModel.User;
@@ -335,6 +333,7 @@ public class ModelController implements ActionListener{
 		long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
 		int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
 		int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
+		// TODO: price should not from booking page but based on balance on user info page
 		double price = Double.valueOf(gui.getBookingPage().getPrice().getText());
 
 		//pay booking fee
@@ -761,6 +760,27 @@ public class ModelController implements ActionListener{
 		}
 		return tempUser;
 	}	
+	
+//	public void useVoucher() {
+//		String voucherID = gui.getUserInfoFromBooking().getVoucherID();
+//		if (!voucherID.matches("[0-9]{5}")) {
+//			gui.setBookingDisplay("Invalid entry, please enter a 5-digit voucher ID!");
+//		} else {
+//			try {
+//				// save price as an attribute 
+//				myPrice = customerManager.useVoucher(Integer.valueOf(voucherID), myPrice);
+//				
+//				// customerManager.useVoucher() returns the remaining balance of the ticket
+//				// ie if credit of voucher is more than price of ticket, price is 0, otherwise it is a positive decimal number
+//				processPayment();
+//			} catch (InvalidVoucherException e1) {
+//				gui.setBookingUserInfoDisplay("Voucher not found!");
+//			} catch (ExpiredVoucherException e2) {
+//				gui.setBookingUserInfoDisplay("Voucher expired!");
+//			}
+//
+//		}
+//	}
 	
 	
 }
