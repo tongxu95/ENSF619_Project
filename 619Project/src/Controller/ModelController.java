@@ -504,28 +504,6 @@ public class ModelController implements ActionListener{
 		gui.getBookingPage().getUserInfo().getDisplay().setText("Paid Successfully!");	
 	}	
 
-	/**
-	 * cancel ticket
-	 * @param e
-	 */
-	private void cancelTicket(ActionEvent e) {
-
-		int booking_id = Integer.valueOf(gui.getCancelPage().getBookingID().getText());
-		//check if booking exist
-		MovieTicket movieTicket = bookingManager.validateBooking(booking_id);
-		if(movieTicket != null) {
-			//check if the cancellation request is made up to 72 hours prior to the show
-			if(bookingManager.verifyCancellation(movieTicket)) {
-				//cancel the ticket
-				bookingManager.cancelTicket(movieTicket);
-				gui.getCancelPage().getDisplay().setText("Cancelled successfully");
-			}
-			else
-				gui.getCancelPage().getDisplay().setText("Cancelled unsuccessfully");
-		}
-		else
-			gui.getCancelPage().getDisplay().setText("Cancelled unsuccessfully");
-	}	
 
 	/**
 	 * actionPerformed
@@ -622,7 +600,7 @@ public class ModelController implements ActionListener{
 			}
 
 		} else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getRegister())
-				|| (gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getRegister())){
+				|| (gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getCancelPage().getUserInfo().getRegister())){
 			try {
 				registerUser(e);
 			} catch (InvalidBankException e1) {
@@ -630,10 +608,10 @@ public class ModelController implements ActionListener{
 			}
 		}
 		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getNoAccount())
-				|| (gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getNoAccount())){
+				|| (gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getCancelPage().getUserInfo().getNoAccount())){
 			createTempUser(e);
 		}
-		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getMakePayment())){
+		else if((gui.getBookingPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getBookingPage().getUserInfo().getMakePayment())){
 			try {
 				processPayment(e);
 			} catch (InvalidBankException e1) {
@@ -641,7 +619,8 @@ public class ModelController implements ActionListener{
 				e1.printStackTrace();
 			}
 		}
-		else if((gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getCancelSeat())){
+		else if((gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getUserInfoFromCancellation().getCancelSeat())){
+			gui.getUserInfoFromCancellation().dispose();
 			cancelTicket(e);
 		}
 	}
@@ -690,7 +669,7 @@ public class ModelController implements ActionListener{
 			//check checkFeeRenewal
 			if(!regUser.checkFeeRenewal()) {//renewal is required
 				gui.setCancellationUserStatusDisplay("Renewal required");
-				gui.setCancellationDisplay("Click Renew Fee Button to pay account fee of $20.00!");
+				gui.setCancellationUserInfoDisplay("Click Renew Fee Button to pay account fee of $20.00!");
 				return false;
 			} else {
 				gui.setCancellationUserStatusDisplay("Account active");
@@ -700,5 +679,22 @@ public class ModelController implements ActionListener{
 		return false;
 	}
 
+	/**
+	 * cancel ticket
+	 * @param e
+	 */
+	private void cancelTicket(ActionEvent e) {
 
+		int booking_id = Integer.valueOf(gui.getBookingID().getText());
+
+		MovieTicket movieTicket = bookingManager.validateBooking(booking_id);
+
+		// booking already validated
+		double credit = bookingManager.cancelTicket(movieTicket);
+		
+		gui.setCancellationDisplay("Cancelled successfully!\n" + customerManager.creatVoucher(credit));
+
+	}	
+
+	
 }

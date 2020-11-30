@@ -51,11 +51,10 @@ public class CancellationView extends JFrame{
 		ScrollPane messageSp=new ScrollPane();
 		Panel_3.add(messageSp);
 		messageSp.add(display);
-		messageSp.setSize(200,40);	
+		messageSp.setSize(200,200);	
 		contentPane.add(Panel_3);	
 		
-		setTitle("Cancellation GUI");
-		setSize(800, 800);   
+		setTitle("Cancellation GUI"); 
 		setLocation(400, 200);
 		pack();
 		setVisible(true);		

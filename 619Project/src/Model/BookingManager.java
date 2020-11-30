@@ -103,8 +103,11 @@ public class BookingManager {
     /**
      * cancel the input ticket
      */
-    public void cancelTicket(MovieTicket ticket) {
-        ticket.cancel();
+    public double cancelTicket(MovieTicket ticket) {
+        bookings.remove(ticket.getBookingId());
+        double ticketprice = ticket.cancel();
+        System.out.println(ticketprice);
+        return ticketprice;
     }
 
     /**

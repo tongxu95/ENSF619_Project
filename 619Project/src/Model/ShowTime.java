@@ -68,8 +68,11 @@ public class ShowTime implements Comparable<ShowTime> {
     /**
      * cancel the seat at the input position
      */
-    public void cancelSeat(int row, int column) {
+    public double cancelSeat(int row, int column, String userType) {
+    	System.out.println(price);
         seats_offered.cancelSeat(row, column);
+        if (userType.equals("Registered")) return price;
+        else return price*0.85;
     }
 
     /*

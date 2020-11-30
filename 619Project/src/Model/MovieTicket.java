@@ -40,11 +40,8 @@ public class MovieTicket {
     /**
      * Cancel the movie ticket
      */
-    public void cancel() {
-        showtime.cancelSeat(this.row, this.column);
-
-        // set this booking id to 0
-        this.booking_id = 0; 
+    public double cancel() {
+        return showtime.cancelSeat(this.row, this.column, userType);
     }
 
     /*
