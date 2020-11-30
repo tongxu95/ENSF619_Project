@@ -13,8 +13,8 @@ public class UserBankDBController {
 	private final String DB_URL = "jdbc:mysql://localhost";
 
 	// Database credentials
-	private final String USERNAME = "";
-	private final String PASSWORD = "";
+	private final String USERNAME = "root";
+	private final String PASSWORD = "Hishy226531";
 	// TODO: fill in login and password
 	
 	// Attributes

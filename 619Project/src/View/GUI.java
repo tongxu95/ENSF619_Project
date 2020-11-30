@@ -101,6 +101,34 @@ public class GUI extends JFrame{
 		return getCancelPage().getBookingID();
 	}
 	
+	//booking********************************
+	public void setBookingDisplay(String text) {
+		getBookingPage().setDisplay(text);
+	}
+	
+	public String getUsernameFromBookingPage() {
+		return getBookingPage().getUserName();
+	}
+
+	public String getPasswordFromBookingPage() {
+		return getBookingPage().getPassword();
+	}
+
+	public void setBookingUserInfoDisplay(String text) {
+		getBookingPage().clearUserDisplay();
+		getBookingPage().setUserDisplay(text);
+	}
+	
+	public void setBookingUserStatusDisplay(String text) {
+		getBookingPage().clearStatusDisplay();
+		getBookingPage().setStatusDisplay(text);
+	}
+	
+	public UserInfoView getUserInfoFromBooking() {
+		return getBookingPage().getUserInfo();
+	}
+	
+	//cancellation*********************************
 	public void setCancellationDisplay(String text) {
 		getCancelPage().clearDisplay();
 		getCancelPage().setDisplay(text);

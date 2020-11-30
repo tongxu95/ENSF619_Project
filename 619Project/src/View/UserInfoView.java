@@ -24,6 +24,7 @@ public class UserInfoView extends JFrame{
 	private JTextField password = new JTextField(10);
 	private JButton login = new JButton("Login");
 	private JTextField feeRenewalStatus = new JTextField(10);
+	private JLabel userType = new JLabel("");
 	private JTextField nameOfUser = new JTextField(20);
 	private JTextField addr = new JTextField(20);
 	private JTextField bank = new JTextField(20);
@@ -31,7 +32,6 @@ public class UserInfoView extends JFrame{
 	private JTextField expr_date = new JTextField(20);
 	private JTextField cvv = new JTextField(20);
 	private JTextField email = new JTextField(20);
-	private JTextField voucher = new JTextField(20);
 	private JButton register = new JButton("Register");
 	private JButton noAccount = new JButton("noAccount");
 	private JButton renewFee = new JButton("Renew Fee");
@@ -53,7 +53,7 @@ public class UserInfoView extends JFrame{
 		JLabel userNamePrompt = new JLabel("UserName:");
 		Panel_1.add(userNamePrompt);
 		Panel_1.add(userName);	
-		JLabel spacePrompt_1 = new JLabel("                      ");
+		JLabel spacePrompt_1 = new JLabel("                         ");
 		Panel_1.add(spacePrompt_1);
 		JLabel feeStatusPrompt = new JLabel("Fee Renewal Status:");
 		Panel_1.add(feeStatusPrompt);
@@ -64,15 +64,18 @@ public class UserInfoView extends JFrame{
 		JLabel passwordPrompt = new JLabel("Password:");
 		Panel_2.add(passwordPrompt);
 		Panel_2.add(password);
-		Panel_2.add(login);
-		Panel_2.add(renewFee);
-		JLabel spacePrompt_2 = new JLabel("                                                                 ");
-		Panel_2.add(spacePrompt_2);		
+		Panel_2.add(login);	
+		JLabel spacePrompt_2 = new JLabel("                                     ");
+		Panel_2.add(spacePrompt_2);	
+		Panel_2.add(renewFee);	
 		contentPane.add(Panel_2);	
 		
 		JPanel Panel_3 = new JPanel();
-		JLabel informationPrompt = new JLabel("----------------------------------------------------------------------------------------------------------");
+		JLabel informationPrompt = new JLabel("------------------------------------");
 		Panel_3.add(informationPrompt);
+		Panel_3.add(userType);
+		JLabel informationPrompt_1 = new JLabel("------------------------------------");
+		Panel_3.add(informationPrompt_1);
 		contentPane.add(Panel_3);
 		
 		JPanel Panel_4 = new JPanel();
@@ -115,13 +118,7 @@ public class UserInfoView extends JFrame{
 		JLabel emailPrompt = new JLabel("      Email:");
 		Panel_10.add(emailPrompt);
 		Panel_10.add(email);
-		contentPane.add(Panel_10);	
-	
-		JPanel Panel_11 = new JPanel();
-		JLabel voucherPrompt = new JLabel("   Voucher:");
-		Panel_11.add(voucherPrompt);
-		Panel_11.add(voucher);
-		contentPane.add(Panel_11);		
+		contentPane.add(Panel_10);		
 
 		/*
 		JPanel Panel_12 = new JPanel();
@@ -170,7 +167,11 @@ public class UserInfoView extends JFrame{
 	
 	public JTextField getFeeRenewalStatus() {
 		return feeRenewalStatus;
-	}	
+	}
+	
+	public JLabel getUserType() {
+		return userType;
+	}
 
 	public JTextField getNameOfUser() {
 		return nameOfUser;
@@ -234,5 +235,9 @@ public class UserInfoView extends JFrame{
 	
 	public JButton getRenewFee() {
 		return renewFee;
+	}
+	
+	public void clearDisplay() {
+		display.setText("");
 	}
 }

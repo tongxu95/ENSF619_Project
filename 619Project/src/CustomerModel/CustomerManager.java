@@ -42,7 +42,7 @@ public class CustomerManager {
     	}
     }
     
-    public User createTempUser(String name, String addr, String bank, int card_no, int expr_date, int cvv, String email) {
+    public User createTempUser(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email) {
     	return new User(name, addr, bank, card_no, expr_date, cvv, email);
     }
     

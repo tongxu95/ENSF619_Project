@@ -57,9 +57,10 @@ public class Theater {
 
         for (int i = 0; i < showtimes.size(); i++) {
             if (showtimes.get(i).getMovie().getName() == movie.getName()) {
-                if (date.after(showtimes.get(i).getDate())) {
+                if(showtimes.get(i).getDate().getYear() == date.getYear()
+                		&& showtimes.get(i).getDate().getMonth() == date.getMonth()
+                		&& showtimes.get(i).getDate().getDay() == date.getDay())
                     output.add(showtimes.get(i));
-                }
             }
         }
 

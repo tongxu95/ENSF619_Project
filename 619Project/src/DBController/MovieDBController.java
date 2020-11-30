@@ -23,8 +23,8 @@ public class MovieDBController {
     public String databaseName = "bookingmodel";
 
     public String connectionInfo = "jdbc:mysql://localhost:3306/bookingmodel",  
-            login          = "",
-            password       = "";
+			  login          = "root",
+			  password       = "Hishy226531";
 	// TODO: fill in login and password
 
     /**
@@ -123,7 +123,12 @@ public class MovieDBController {
                         for (int j = 0; j < theaters.viewTheaters().get(i).getTheaterRooms().size(); j++) {
                             if (theaters.viewTheaters().get(i).getTheaterRooms().get(j).getNumber() == showtimes.getInt("TheaterNumber")) {
                                 // add showtime to theater
-                                theaters.viewTheaters().get(i).addShowTime(new ShowTime(movie, showtimes.getString("TheaterName"), showtimes.getInt("TheaterNumber"), showtimes.getDate("ShowDate"), showtimes.getTime("ShowTime"), new SeatMap(theaters.viewTheaters().get(i).getTheaterRooms().get(j).getSeatArrangement())));
+                                theaters.viewTheaters().get(i).addShowTime(new ShowTime(movie, showtimes.getString("TheaterName")
+                                										, showtimes.getInt("TheaterNumber")
+                                										, showtimes.getDate("ShowDate")
+                                										, showtimes.getTime("ShowTime")
+                                										, new SeatMap(theaters.viewTheaters().get(i).getTheaterRooms().get(j).getSeatArrangement())
+                                										, showtimes.getDouble("price")));
                                 System.out.println("Movie '" + movie.getName() + "' Showtime Added to Theater");
                                 break;
                             }

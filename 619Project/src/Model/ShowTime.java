@@ -34,13 +34,14 @@ public class ShowTime implements Comparable<ShowTime> {
      * @param time
      * @param seats_offered
      */
-    public ShowTime(Movies movie, String theater_name, int theater_num, Date date, Time time, SeatMap seats_offered) {
+    public ShowTime(Movies movie, String theater_name, int theater_num, Date date, Time time, SeatMap seats_offered, double price) {
         this.movie = movie; 
         this.theater_name = theater_name;
         this.theater_num = theater_num;
         this.date = date;
         this.time = time;
         this.seats_offered = seats_offered;
+        this.price = price;
     }
 
     /** 
