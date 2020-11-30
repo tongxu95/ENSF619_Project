@@ -555,7 +555,7 @@ public class ModelController implements ActionListener{
 			}
 		} 
 		//login from cancellation page
-		else if ((gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getUserInfoFromCancellation().getLogin())) {
+		else if ((gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getUserInfoFromCancellation().getLogin())) {	
 			gui.setCancellationUserInfoDisplay("");
 			gui.setCancellationUserStatusDisplay("");
 			try {
@@ -748,7 +748,7 @@ public class ModelController implements ActionListener{
 		RegisteredUser regUser = getRegUser("Cancellation");
 		
 		if(regUser != null)	{
-			gui.getBookingPage().getUserInfo().getUserType().setText("Registered User");
+			gui.getCancelPage().getUserInfo().getUserType().setText("Registered User");
 			gui.getCancelPage().getUserInfo().getNameOfUser().setText(regUser.getName());
 			gui.getCancelPage().getUserInfo().getAddr().setText(regUser.getName());
 			gui.getCancelPage().getUserInfo().getBank().setText(regUser.getFinancial_institution());
