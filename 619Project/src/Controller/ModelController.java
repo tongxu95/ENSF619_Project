@@ -261,6 +261,7 @@ public class ModelController implements ActionListener{
 		gui.getUserInfoFromBooking().getRegister().addActionListener(this);
 		gui.getUserInfoFromBooking().getNoAccount().addActionListener(this);
 		gui.getUserInfoFromBooking().getMakePayment().addActionListener(this);
+		gui.getUserInfoFromBooking().getRenewFee().addActionListener(this); 
 
 		//user info view for booking, the button of "Cancel Seat" is unavailabe.
 		gui.getUserInfoFromBooking().getCancelSeat().setEnabled(false);
@@ -287,12 +288,10 @@ public class ModelController implements ActionListener{
 
 	/**
 	 * register user
-	 * @param e
-	 * @throws InvalidBankException 
 	 */
-	private void registerUser(ActionEvent e) throws InvalidBankException {
+	private void registerUser() {
 		//open userinfo view from booking
-		if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getRegister())
+		if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null)
 		{
 			String username = gui.getUserInfoFromBooking().getUserName().getText();
 			String password = gui.getUserInfoFromBooking().getPassword().getText();			
@@ -300,53 +299,21 @@ public class ModelController implements ActionListener{
 			String name = gui.getUserInfoFromBooking().getNameOfUser().getText();
 			String addr = gui.getUserInfoFromBooking().getAddr().getText();
 			String bank = gui.getUserInfoFromBooking().getBank().getText();
-			int card_no = Integer.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
+			long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
 			int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
 			int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
 			String email = gui.getUserInfoFromBooking().getEmail().getText();
 
-			//pay annual fee 20.00
-			boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, 20.00);
-			if(payStat)//paid successfully
-			{
-				//register user
-				RegisteredUser registeredUser = customerManager.registerUser(name, addr, bank, card_no, expr_date, cvv, email, username, password);
-				//update feeRenewDate for register user
-				if(registeredUser != null)
-					registeredUser.paidAnnualFee();
-
-				gui.getUserInfoFromBooking().getFeeRenewalStatus().setText("AnnualFee was deducted!");
-				gui.getUserInfoFromBooking().getDisplay().setText("Registered User");	
-			}	
-		}
-		//open userinfo view from cancellation
-		else
-		{
-			String username = gui.getUsernameFromCancelPage();
-			String password = gui.getPasswordFromCancelPage();			
-
-			String name = gui.getUserInfoCancel().getNameOfUser().getText();
-			String addr = gui.getUserInfoCancel().getAddr().getText();
-			String bank = gui.getUserInfoCancel().getBank().getText();
-			int card_no = Integer.valueOf(gui.getUserInfoCancel().getCard_no().getText());
-			int expr_date = Integer.valueOf(gui.getUserInfoCancel().getExpr_date().getText());
-			int cvv = Integer.valueOf(gui.getUserInfoCancel().getCvv().getText());
-			String email = gui.getUserInfoCancel().getEmail().getText();
-
-			//pay annual fee 20.00
-			boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, 20.00);
-			if(payStat)//paid successfully
-			{
-				//register user
-				RegisteredUser registeredUser = customerManager.registerUser(name, addr, bank, card_no, expr_date, cvv, email, username, password);
-				//update feeRenewDate for register user
-				if(registeredUser != null)
-					registeredUser.paidAnnualFee();
-
-				gui.setCancelUserStatusDisplay("Account active");
-				Date renewDate = registeredUser.getFeeRenewDate();
-				gui.setCancelUserInfoDisplay("Payment successfully processed!\nAccount valid until: " + renewDate);	
-			}
+			//register user
+			regUser = customerManager.registerUser(name, addr, bank, card_no, expr_date, cvv, email, username, password);
+			
+			gui.getUserInfoFromBooking().getRegister().setEnabled(false);
+			gui.getUserInfoFromBooking().getLogin().setEnabled(false);
+			gui.getUserInfoFromBooking().getNoAccount().setEnabled(false);
+			gui.getUserInfoFromBooking().getMakePayment().setEnabled(false);
+			
+			gui.setBookingUserStatusDisplay("Renewal required");
+			gui.setBookingUserInfoDisplay("To activate account, must pay $20.00 annual fee.\nClick Renew Fee Button to continue.");
 		}
 	}
 
@@ -355,7 +322,7 @@ public class ModelController implements ActionListener{
 	 * @param e
 	 * @throws InvalidBankException 
 	 */
-	private void processPayment(ActionEvent e) throws InvalidBankException {
+	private void processPayment() throws InvalidBankException {
 
 		String bank = gui.getUserInfoFromBooking().getBank().getText();
 		long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
@@ -404,8 +371,7 @@ public class ModelController implements ActionListener{
 							
 							if(movieTicket == null)
 							{
-								gui.getUserInfoFromBooking().getDisplay().setText("That seat is not available!");	
-								return;
+								gui.getUserInfoFromBooking().getDisplay().setText("That seat is not available!");
 							}
 							else
 							{
@@ -424,7 +390,10 @@ public class ModelController implements ActionListener{
 						}			
 					}
 				}			
-			}		
+			}	
+			gui.getUserInfoFromBooking().dispose();
+		} else {
+			gui.setBookingUserInfoDisplay("Credit Card not found!");
 		}
 	}	
 
@@ -489,8 +458,6 @@ public class ModelController implements ActionListener{
 		}	
 		//login from booking page
 		else if((gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getLogin())) {			
-			gui.setBookingUserInfoDisplay("");
-			gui.setBookingUserStatusDisplay("");
 			try {
 				login(e);
 			} catch (InvalidUsernameException e1) {
@@ -501,8 +468,6 @@ public class ModelController implements ActionListener{
 		} 
 		//login from cancellation page
 		else if ((gui.getCancelPage() != null && gui.getUserInfoCancel() != null && e.getSource() == gui.getUserInfoCancel().getLogin())) {	
-			gui.setCancelUserInfoDisplay("");
-			gui.setCancelUserStatusDisplay("");
 			try {
 				login(e);
 			} catch (InvalidUsernameException e1) {
@@ -520,7 +485,7 @@ public class ModelController implements ActionListener{
 					if (! transactionStatus) {
 						gui.setBookingUserInfoDisplay("Credit Card not found!");
 					} else {
-						gui.getUserInfoCancel().getCancelSeat().setEnabled(true);
+						gui.getUserInfoFromBooking().getMakePayment().setEnabled(true);
 						regUser.paidAnnualFee();
 						Date renewDate = regUser.getFeeRenewDate();
 						gui.setBookingUserInfoDisplay("Payment successfully processed!\nAccount valid until: " + renewDate);
@@ -553,13 +518,7 @@ public class ModelController implements ActionListener{
 		} 
 		//register user from booking page
 		else if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getRegister()){
-			try {
-				registerUser(e);
-			} catch (InvalidBankException e1) {
-				gui.setBookingUserInfoDisplay("Invalid username!");
-			} catch (Exception e1) {
-				gui.setBookingUserInfoDisplay("Invalid user information!");
-			}
+			registerUser();
 		}
 		//create temporary user from booking page
 		else if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getNoAccount()){
@@ -574,16 +533,15 @@ public class ModelController implements ActionListener{
 			try {
 				createTempUser(e);
 			} catch (Exception e1) {
-				e1.printStackTrace();
 				gui.setCancelUserInfoDisplay("Invalid user information!");
 			}				
 		}	
 		//make payment from booking page
 		else if((gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getMakePayment())){
 			try {
-				processPayment(e);
+				processPayment();
 			} catch (InvalidBankException e1) {
-				gui.setBookingUserInfoDisplay("Invalid user information!");
+				gui.setBookingUserInfoDisplay("Invalid bank information!");
 			}
 		}
 		//cancel ticket from cancellation page
@@ -658,10 +616,14 @@ public class ModelController implements ActionListener{
 			if(!regUser.checkFeeRenewal()) {//renewal is required
 				gui.setBookingUserStatusDisplay("Renewal required");
 				gui.setBookingUserInfoDisplay("Click Renew Fee Button to pay account fee of $20.00!");
-				gui.getUserInfoFromBooking().getCancelSeat().setEnabled(false);
+				gui.getUserInfoFromBooking().getMakePayment().setEnabled(false);
+				gui.getUserInfoFromBooking().getRegister().setEnabled(false);
+				gui.getUserInfoFromBooking().getNoAccount().setEnabled(false);
 				return false;
 			} else {
 				gui.setBookingUserStatusDisplay("Account active");
+				gui.getUserInfoFromBooking().getRegister().setEnabled(false);
+				gui.getUserInfoFromBooking().getNoAccount().setEnabled(false);
 				return true;
 			}
 		}	
@@ -770,7 +732,8 @@ public class ModelController implements ActionListener{
 			String email = gui.getUserInfoFromBooking().getEmail().getText();
 
 			tempUser = customerManager.createTempUser(name, addr, bank, card_no, expr_date, cvv, email);
-
+			gui.getUserInfoFromBooking().getLogin().setEnabled(false);
+			gui.getUserInfoFromBooking().getRegister().setEnabled(false);
 			gui.getUserInfoFromBooking().getUserType().setText("Temporary User");	
 			gui.getUserInfoFromBooking().getDisplay().setText("Temporary User created successfully!");
 		}
@@ -794,5 +757,3 @@ public class ModelController implements ActionListener{
 	
 	
 }
-
-	
