@@ -71,5 +71,5 @@ INSERT INTO VOUCHER VALUES
 
 INSERT INTO REGISTERED VALUES
 	('alfred96', 'Pa$sword','2021-05-21','Alfred L. McCray','718 Village Green Road, Lake Verde, PE','Scotiabank','alfred1996@gmail.com','4929844610628530',138,0524),
-    ('Mike331','M@Rankin','2020-12-21','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','TD Canada Trust','mike331@hotmail.com','2720999154954117',290,0323),
-    ('Lorraine20','L*Thomson','2021,10-31','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','BMO','thomson331@shaw.ca','4532316556491131',488,0921);
+    ('Mike331','M@Rankin','2020-10-21','Mike A. Rankin','3226 Eglinton Avenue, Toronto, ON','Scotiabank','mike331@hotmail.com','2720999154954117',290,0323),
+    ('Lorraine20','L*Thomson','2021-10-31','Lorraine C. Thompson','4025 Roger Street, Port Alberni, BC','TD Canada Trust','thomson331@shaw.ca','4532316556491131',488,0921);

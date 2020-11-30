@@ -105,4 +105,26 @@ public class GUI extends JFrame{
 		getCancelPage().clearDisplay();
 		getCancelPage().setDisplay(text);
 	}
+
+	public String getUsernameFromCancelPage() {
+		return getCancelPage().getUserName();
+	}
+
+	public String getPasswordFromCancelPage() {
+		return getCancelPage().getPassword();
+	}
+
+	public void setCancellationUserInfoDisplay(String text) {
+		getCancelPage().clearUserDisplay();
+		getCancelPage().setUserDisplay(text);
+	}
+	
+	public void setCancellationUserStatusDisplay(String text) {
+		getCancelPage().clearStatusDisplay();
+		getCancelPage().setStatusDisplay(text);
+	}
+	
+	public UserInfoView getUserInfoFromCancellation() {
+		return getCancelPage().getUserInfo();
+	}
 }

@@ -88,4 +88,28 @@ public class CancellationView extends JFrame{
 	public void setDisplay(String text) {
 		display.setText(text);
 	}
+
+	public String getUserName() {
+		return userInfo.getUserName().getText();
+	}
+
+	public String getPassword() {
+		return userInfo.getPassword().getText();
+	}
+
+	public void clearUserDisplay() {
+		userInfo.setDisplay("");
+	}
+
+	public void setUserDisplay(String text) {
+		userInfo.setDisplay(text);
+	}
+
+	public void clearStatusDisplay() {
+		userInfo.setStatus("");
+	}
+
+	public void setStatusDisplay(String text) {
+		userInfo.setStatus(text);
+	}
 }

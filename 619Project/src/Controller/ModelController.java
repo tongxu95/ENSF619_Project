@@ -277,6 +277,7 @@ public class ModelController implements ActionListener{
 		gui.getCancelPage().getUserInfo().getRegister().addActionListener(this);
 		gui.getCancelPage().getUserInfo().getNoAccount().addActionListener(this);	
 		gui.getCancelPage().getUserInfo().getCancelSeat().addActionListener(this);
+		gui.getCancelPage().getUserInfo().getRenewFee().addActionListener(this);
 
 		//user info view for cancellation, the button of "Make Payment" is unavailabe.
 		gui.getCancelPage().getUserInfo().getMakePayment().setEnabled(false);
@@ -288,60 +289,42 @@ public class ModelController implements ActionListener{
 	 * @throws InvalidUsernameException 
 	 * @throws InvalidBankException 
 	 */
-	private void login(ActionEvent e) throws InvalidUsernameException, InvalidPasswordException, InvalidBankException{
+	private boolean login(ActionEvent e) throws InvalidUsernameException, InvalidPasswordException {
 		//open userinfo view from booking
 		if(gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getLogin())
 		{
-			//login
-			String username = gui.getBookingPage().getUserInfo().getUserName().getText();
-			String password = gui.getBookingPage().getUserInfo().getPassword().getText();
-			RegisteredUser regestedUser = customerManager.login(username, password);
-
-			if(regestedUser != null)
-			{
-				//check checkFeeRenewal
-				if(!regestedUser.checkFeeRenewal())//renewal is required
-				{
-					//pay annual fee
-					bankManager.processTransaction(regestedUser.getFinancial_institution(), regestedUser.getCredit_card_no(),
-							regestedUser.getCard_exp(), regestedUser.getCard_cvv(), 20.00);
-					gui.getBookingPage().getUserInfo().getFeeRenewalStatus().setText("AnnualFee was deducted!");
-				}
-				else
-				{
-					gui.getBookingPage().getUserInfo().getFeeRenewalStatus().setText("Account is still active!");
-				}
-
-				gui.getBookingPage().getUserInfo().getDisplay().setText("Registered User");	
-			}
+//			//login
+//			String username = gui.getBookingPage().getUserInfo().getUserName().getText();
+//			String password = gui.getBookingPage().getUserInfo().getPassword().getText();
+//			RegisteredUser regestedUser = customerManager.login(username, password);
+//
+//			if(regestedUser != null)
+//			{
+//				//check checkFeeRenewal
+//				if(!regestedUser.checkFeeRenewal())//renewal is required
+//				{
+//					//pay annual fee
+//					bankManager.processTransaction(regestedUser.getFinancial_institution(), regestedUser.getCredit_card_no(),
+//							regestedUser.getCard_exp(), regestedUser.getCard_cvv(), 20.00);
+//					gui.getBookingPage().getUserInfo().getFeeRenewalStatus().setText("AnnualFee was deducted!");
+//				}
+//				else
+//				{
+//					gui.getBookingPage().getUserInfo().getFeeRenewalStatus().setText("Account is still active!");
+//				}
+//
+//				gui.getBookingPage().getUserInfo().getDisplay().setText("Registered User");	
+//
+//			}
+			return false;
+			//TODO: create loginFromBooking, refer to loginFromCancellation
 		}
 		//open userinfo view from cancellation
-		else
-		{
-			//login
-			String username = gui.getCancelPage().getUserInfo().getUserName().getText();
-			String password = gui.getCancelPage().getUserInfo().getPassword().getText();
-			RegisteredUser regestedUser = customerManager.login(username, password);
-
-			if(regestedUser != null)
-			{
-				//check checkFeeRenewal
-				if(!regestedUser.checkFeeRenewal())//renewal is required
-				{
-					//pay annual fee
-					bankManager.processTransaction(regestedUser.getFinancial_institution(), regestedUser.getCredit_card_no(),
-							regestedUser.getCard_exp(), regestedUser.getCard_cvv(), 20.00);
-					gui.getCancelPage().getUserInfo().getFeeRenewalStatus().setText("AnnualFee was deducted!");
-				}
-				else
-				{
-					gui.getCancelPage().getUserInfo().getFeeRenewalStatus().setText("Account is still active!");
-				}
-
-				gui.getCancelPage().getUserInfo().getDisplay().setText("Registered User");	
-			}	
+		else {
+			return loginFromCancellation();
 		}
 	}	
+
 
 	/**
 	 * register user
@@ -545,31 +528,6 @@ public class ModelController implements ActionListener{
 	}	
 
 	/**
-	 * Check if booking exists and can be cancelled.
-	 * @return Return true if booking exist and can be cancelled (cancellation request 72 hours before showtime) and false otherwise
-	 */
-	private boolean validateBooking() {
-		String bookingID = gui.getBookingID().getText();
-		if (! bookingID.matches("[0-9]{4}")) {
-			gui.setCancellationDisplay("Invalid entry, enter your 4-digit booking ID!");
-		}
-		else {
-			MovieTicket ticket = bookingManager.validateBooking(Integer.parseInt(bookingID));
-			if (ticket == null) {
-				gui.setCancellationDisplay("Not a valid booking ID!");
-			} else {
-				if(bookingManager.verifyCancellation(ticket)) {
-					gui.setCancellationDisplay("Booking ID found!");
-					return true;
-				} else {
-					gui.setCancellationDisplay("Cannot cancel booking within 72 hours to showtime!");
-				}
-			}
-		}
-		return false;
-	}
-	
-	/**
 	 * actionPerformed
 	 */
 	@Override
@@ -624,19 +582,46 @@ public class ModelController implements ActionListener{
 		else if (gui.getCancelPage() != null && e.getSource() == gui.getCancelPage().getCancel()) {
 			if (validateBooking()) showUserInfo_Cancellation();
 		}	
-		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getLogin())
-				|| (gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getLogin())) {
+		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getLogin())) {
 			try {
 				login(e);
 			} catch (InvalidUsernameException e1) {
 				e1.printStackTrace();
 			} catch (InvalidPasswordException e1) {
 				e1.printStackTrace();
-			} catch (InvalidBankException e1) {
-				e1.printStackTrace();
 			}
-		}	
-		else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getRegister())
+			// TODO: refer to login for cancellation and renew fee (case below)
+		} else if ((gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getUserInfoFromCancellation().getLogin())) {
+			try {
+				login(e);
+			} catch (InvalidUsernameException e1) {
+				gui.setCancellationUserInfoDisplay("Invalid username!");
+			} catch (InvalidPasswordException e2) {
+				gui.setCancellationUserInfoDisplay("Invalid password!");
+			}
+		} else if ((gui.getCancelPage() != null && gui.getUserInfoFromCancellation() != null && e.getSource() == gui.getUserInfoFromCancellation().getRenewFee())) {
+			if (gui.getUserInfoFromCancellation().getFeeRenewalStatus().getText().equals("Renewal required")) {
+				try {
+					RegisteredUser regUser = getRegUser();
+					boolean transactionStatus = bankManager.processTransaction(regUser.getFinancial_institution(), regUser.getCredit_card_no(),
+						regUser.getCard_exp(), regUser.getCard_cvv(), 20.00);
+					if (! transactionStatus) {
+						gui.setCancellationUserInfoDisplay("Credit Card not found!");
+					} else {
+						regUser.paidAnnualFee();
+						Date renewDate = regUser.getFeeRenewDate();
+						gui.setCancellationUserInfoDisplay("Payment successfully processed!\nAccount valid until: " + renewDate);
+					}
+				} catch (InvalidUsernameException e1) {
+					gui.setCancellationUserInfoDisplay("Invalid username!");
+				} catch (InvalidPasswordException e2) {
+					gui.setCancellationUserInfoDisplay("Invalid password!");
+				} catch (InvalidBankException e2) {
+					gui.setCancellationUserInfoDisplay("Invalid bank name!");
+				}
+			}
+
+		} else if((gui.getBookingPage() != null && gui.getBookingPage().getUserInfo() != null && e.getSource() == gui.getBookingPage().getUserInfo().getRegister())
 				|| (gui.getCancelPage() != null && gui.getCancelPage().getUserInfo() != null && e.getSource() == gui.getCancelPage().getUserInfo().getRegister())){
 			try {
 				registerUser(e);
@@ -661,6 +646,59 @@ public class ModelController implements ActionListener{
 		}
 	}
 
+
+	/**
+	 * Check if booking exists and can be cancelled.
+	 * @return Return true if booking exist and can be cancelled (cancellation request 72 hours before showtime) and false otherwise
+	 */
+	private boolean validateBooking() {
+		String bookingID = gui.getBookingID().getText();
+		if (! bookingID.matches("[0-9]{4}")) {
+			gui.setCancellationDisplay("Invalid entry, enter your 4-digit booking ID!");
+		}
+		else {
+			MovieTicket ticket = bookingManager.validateBooking(Integer.parseInt(bookingID));
+			if (ticket == null) {
+				gui.setCancellationDisplay("Not a valid booking ID!");
+			} else {
+				if(bookingManager.verifyCancellation(ticket)) {
+					gui.setCancellationDisplay("Booking ID found!");
+					return true;
+				} else {
+					gui.setCancellationDisplay("Cannot cancel booking within 72 hours to showtime!");
+				}
+			}
+		}
+		return false;
+	}
+	
+	private RegisteredUser getRegUser() throws InvalidUsernameException,
+	InvalidPasswordException {
+		//login
+		String username = gui.getUsernameFromCancelPage();
+		String password = gui.getPasswordFromCancelPage();
+
+		RegisteredUser regUser = customerManager.login(username, password);
+		return regUser;
+	}
+
+	private boolean loginFromCancellation() throws InvalidUsernameException,
+	InvalidPasswordException {
+		RegisteredUser regUser = getRegUser();
+		
+		if(regUser != null)	{
+			//check checkFeeRenewal
+			if(!regUser.checkFeeRenewal()) {//renewal is required
+				gui.setCancellationUserStatusDisplay("Renewal required");
+				gui.setCancellationDisplay("Click Renew Fee Button to pay account fee of $20.00!");
+				return false;
+			} else {
+				gui.setCancellationUserStatusDisplay("Account active");
+				return true;
+			}
+		}	
+		return false;
+	}
 
 
 }

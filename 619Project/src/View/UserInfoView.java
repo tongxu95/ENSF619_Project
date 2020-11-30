@@ -34,6 +34,7 @@ public class UserInfoView extends JFrame{
 	private JTextField voucher = new JTextField(20);
 	private JButton register = new JButton("Register");
 	private JButton noAccount = new JButton("noAccount");
+	private JButton renewFee = new JButton("Renew Fee");
 	private JButton makePayment = new JButton("make Payment");
 	private JButton cancelSeat = new JButton("cancel Seat");	
 	private JTextField display = new JTextField(20);
@@ -64,6 +65,7 @@ public class UserInfoView extends JFrame{
 		Panel_2.add(passwordPrompt);
 		Panel_2.add(password);
 		Panel_2.add(login);
+		Panel_2.add(renewFee);
 		JLabel spacePrompt_2 = new JLabel("                                                                 ");
 		Panel_2.add(spacePrompt_2);		
 		contentPane.add(Panel_2);	
@@ -143,7 +145,7 @@ public class UserInfoView extends JFrame{
 		contentPane.add(Panel_14);	
 		
 		JPanel Panel_15=new JPanel();
-		JLabel messagePrompt = new JLabel("User Type:");
+		JLabel messagePrompt = new JLabel("Message:");
 		Panel_15.add(messagePrompt);
 		ScrollPane messageSp=new ScrollPane();
 		Panel_15.add(messageSp);
@@ -220,5 +222,17 @@ public class UserInfoView extends JFrame{
 	
 	public JButton getCancelSeat() {
 		return cancelSeat;
+	}
+
+	public void setDisplay(String text) {
+		display.setText(text);
+	}
+
+	public void setStatus(String text) {
+		feeRenewalStatus.setText(text);
 	}	
+	
+	public JButton getRenewFee() {
+		return renewFee;
+	}
 }

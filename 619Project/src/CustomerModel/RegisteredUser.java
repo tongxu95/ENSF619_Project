@@ -61,6 +61,8 @@ public class RegisteredUser extends User {
 		feeRenewDate = Date.valueOf(LocalDate.now().plusDays(365));
 	}
 	
-
+	public Date getFeeRenewDate() {
+		return feeRenewDate;
+	}
 }
 
