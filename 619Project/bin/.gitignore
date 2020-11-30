@@ -1,9 +1,9 @@
-/View/
-/DBController/
-/Model/
-/bookingModel.sql
-/Controller/
-/CustomerModel/
-/FinancialInstitute/
-/main/
+/.DS_Store
 /App/
+/Controller/
+/CustomException/
+/CustomerModel/
+/DBController/
+/FinancialInstitute/
+/Model/
+/View/

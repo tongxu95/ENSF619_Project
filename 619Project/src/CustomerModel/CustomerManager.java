@@ -47,9 +47,12 @@ public class CustomerManager {
     }
     
     // for registration, call processTransaction() first before calling registerUser() 
-    public RegisteredUser registerUser(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email, String username, String pwd) {
+    public RegisteredUser registerUser(String name, String addr, String bank, long card_no, int expr_date, int cvv, String email, String username, String pwd)
+    throws InvalidUsernameException {
     	RegisteredUser newUser = new RegisteredUser(name, addr, bank, card_no, expr_date, cvv, email, username, pwd);
     	newUser.paidAnnualFee();
+    	System.out.println(registeredUsers.keySet());
+    	if (registeredUsers.containsKey(username)) throw new InvalidUsernameException();
     	registeredUsers.put(username, newUser);
     	return newUser;
     }

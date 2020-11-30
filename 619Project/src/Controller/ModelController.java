@@ -290,11 +290,13 @@ public class ModelController implements ActionListener{
 	 * register user
 	 */
 	private void registerUser() {
-		//open userinfo view from booking
-		if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null)
 		{
 			String username = gui.getUserInfoFromBooking().getUserName().getText();
-			String password = gui.getUserInfoFromBooking().getPassword().getText();			
+			String password = gui.getUserInfoFromBooking().getPassword().getText();
+			if (username.equals("")) {
+				gui.setBookingUserInfoDisplay("Please enter a username and password!");
+				return;
+			}
 
 			String name = gui.getUserInfoFromBooking().getNameOfUser().getText();
 			String addr = gui.getUserInfoFromBooking().getAddr().getText();
@@ -305,15 +307,20 @@ public class ModelController implements ActionListener{
 			String email = gui.getUserInfoFromBooking().getEmail().getText();
 
 			//register user
-			regUser = customerManager.registerUser(name, addr, bank, card_no, expr_date, cvv, email, username, password);
-			
-			gui.getUserInfoFromBooking().getRegister().setEnabled(false);
-			gui.getUserInfoFromBooking().getLogin().setEnabled(false);
-			gui.getUserInfoFromBooking().getNoAccount().setEnabled(false);
-			gui.getUserInfoFromBooking().getMakePayment().setEnabled(false);
-			
-			gui.setBookingUserStatusDisplay("Renewal required");
-			gui.setBookingUserInfoDisplay("To activate account, must pay $20.00 annual fee.\nClick Renew Fee Button to continue.");
+			try {
+				regUser = customerManager.registerUser(name, addr, bank, card_no, expr_date, cvv, email, username, password);
+				
+				gui.getUserInfoFromBooking().getRegister().setEnabled(false);
+				gui.getUserInfoFromBooking().getLogin().setEnabled(false);
+				gui.getUserInfoFromBooking().getNoAccount().setEnabled(false);
+				gui.getUserInfoFromBooking().getMakePayment().setEnabled(false);
+				
+				gui.setBookingUserStatusDisplay("Renewal required");
+				gui.setBookingUserInfoDisplay("To activate account, must pay $20.00 annual fee.\nClick Renew Fee Button to continue.");
+			} catch (InvalidUsernameException e) {
+				gui.setBookingUserInfoDisplay("Username already taken. Choose a different username!");
+			}
+
 		}
 	}
 
