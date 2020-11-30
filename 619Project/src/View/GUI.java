@@ -1,6 +1,4 @@
 package View;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /*
  *  GUI.java
@@ -18,8 +16,6 @@ import java.awt.event.ActionListener;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GUI extends JFrame{
 	private CancellationView cancelPage;
@@ -142,17 +138,17 @@ public class GUI extends JFrame{
 		return getCancelPage().getPassword();
 	}
 
-	public void setCancellationUserInfoDisplay(String text) {
+	public void setCancelUserInfoDisplay(String text) {
 		getCancelPage().clearUserDisplay();
 		getCancelPage().setUserDisplay(text);
 	}
 	
-	public void setCancellationUserStatusDisplay(String text) {
+	public void setCancelUserStatusDisplay(String text) {
 		getCancelPage().clearStatusDisplay();
 		getCancelPage().setStatusDisplay(text);
 	}
 	
-	public UserInfoView getUserInfoFromCancellation() {
+	public UserInfoView getUserInfoCancel() {
 		return getCancelPage().getUserInfo();
 	}
 }

@@ -1,8 +1,6 @@
 package App;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import Controller.ModelController;
@@ -10,14 +8,8 @@ import CustomerModel.CustomerManager;
 import CustomerModel.RegisteredUser;
 import CustomerModel.Voucher;
 import DBController.LoadDB;
-import DBController.MovieDBController;
 import FinancialInstitute.BankManager;
 import Model.BookingManager;
-import Model.MovieCatalogue;
-import Model.MovieTicket;
-import Model.Movies;
-import Model.Theater;
-import Model.TheaterCatalogue;
 import View.GUI;
 
 public class App {

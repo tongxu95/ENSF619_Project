@@ -40,10 +40,19 @@ public class User {
 	}
 	
 	public String sendTicket(MovieTicket ticket) {
-		String confirmation = "Thank you for your purchase.\nPlease find below your ticket:\n";
+		String confirmation = "Dear " + name + ":\n";
+		confirmation += "Thank you for your purchase.\nPlease find below your ticket information:\n";
 		confirmation += ticket.toString();
 		return confirmation;
 	}
+
+	public String sendVoucher(String voucher) {
+		String confirmation = "Dear " + name + ":\n";
+		confirmation += "Please find below your voucher information:\n";
+		confirmation += voucher.toString();
+		return confirmation;
+	}
+	
 
 	public String getName() {
 		return name;
@@ -72,5 +81,6 @@ public class User {
 	public int getCard_cvv() {
 		return card_cvv;
 	}
-    
+
+
 }
