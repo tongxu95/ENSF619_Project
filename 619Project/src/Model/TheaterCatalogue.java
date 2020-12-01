@@ -41,6 +41,13 @@ public class TheaterCatalogue {
     }
 
     /**
+     * return all theaters
+     */
+    public ArrayList<Theater> viewTheaters() {
+        return this.theaters;
+    }
+
+    /**
      * return list of theaters that offer a movie
      */
     public ArrayList<Theater> searchTheaterForMovie(Movies movie) {

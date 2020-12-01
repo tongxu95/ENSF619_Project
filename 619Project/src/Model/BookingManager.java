@@ -46,6 +46,13 @@ public class BookingManager {
     }
 
     /**
+     * @return returns the theaters within the theater catalogue
+     */
+    public ArrayList<Theater> viewTheaters() {
+        return theaters.viewTheaters();
+    }
+
+    /**
      * @param movie
      * @return returns the theaters with the given movie
      */
