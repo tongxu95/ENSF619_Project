@@ -17,13 +17,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.InvalidParameterException;
 import java.util.Date;
-
-import javax.swing.JButton;
-
 import java.sql.Time;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-
 import CustomException.*;
 import CustomerModel.CustomerManager;
 import CustomerModel.RegisteredUser;
@@ -203,8 +199,7 @@ public class ModelController implements ActionListener{
 		gui.getUserInfoFromBooking().getRenewFee().addActionListener(this); 
 		gui.getUserInfoFromBooking().getMakePaymentWithVoucher().addActionListener(this); 
 		
-		String myPrice = gui.getBookingPage().getPrice().getText();
-		gui.getUserInfoFromBooking().getBalance().setText(myPrice);
+		gui.getUserInfoFromBooking().getBalance().setText("" + myPrice);
 		gui.getUserInfoFromBooking().getMakePayment().setEnabled(false);
 		gui.getUserInfoFromBooking().getMakePaymentWithVoucher().setEnabled(false);
 
@@ -308,45 +303,49 @@ public class ModelController implements ActionListener{
 	 */
 	private void processPayment() throws InvalidBankException {	
 
-		String userType = gui.getUserInfoFromBooking().getUserType().getText();
+		if (myPrice > 0 ) {
+			String bank = gui.getUserInfoFromBooking().getBank().getText();
+			long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
+			int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
+			int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());	
 		
-		String balance = gui.getUserInfoFromBooking().getBalance().getText();
-		if (! balance.equals("")) {
-			myPrice = Double.valueOf(balance);
+			System.out.println(myPrice);
+			boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, myPrice);
+				
+			//paid successfully
+			if(payStat) {	
+				printTicket();
+			} else {
+				gui.setBookingUserInfoDisplay("Credit Card not found!");
+			}
+		} else {
+			printTicket();
+		}
+						
+	}
+
+	private void printTicket() {
+		gui.setBookingUserInfoDisplay("Paid Successfully!");	
+
+		String userType = gui.getUserInfoFromBooking().getUserType().getText();
+		myTicket = showtimeSelected.selectSeat(rowSelected, colSelected, bookingID, userType);
+
+		bookingID += 1;//bookingID plus 1 if a seat was booked
+
+		//show the ticket in booking view
+		if (userType.equals("Registered")) {
+			gui.setBookingDisplay(regUser.sendTicket(myTicket));
+		} else {
+			gui.setBookingDisplay(tempUser.sendTicket(myTicket));
 		}
 
-		String bank = gui.getUserInfoFromBooking().getBank().getText();
-		long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
-		int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
-		int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());	
-	
-		System.out.println(myPrice);
-		boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, myPrice);
-			
-		//paid successfully
-		if(payStat) {	
-			gui.setBookingUserInfoDisplay("Paid Successfully!");	
-			
-			myTicket = showtimeSelected.selectSeat(rowSelected, colSelected, bookingID, userType);
+		//add the ticket to BookingManger
+		bookingManager.addBooking(bookingID, myTicket);	
+							
+		gui.getUserInfoFromBooking().dispose();
 
-			bookingID += 1;//bookingID plus 1 if a seat was booked
-	
-			//show the ticket in booking view
-			if (userType.equals("Registered")) {
-				gui.setBookingDisplay(regUser.sendTicket(myTicket));
-			} else {
-				gui.setBookingDisplay(tempUser.sendTicket(myTicket));
-			}
-	
-			//add the ticket to BookingManger
-			bookingManager.addBooking(bookingID, myTicket);	
-								
-			gui.getUserInfoFromBooking().dispose();
-	
-			clearBookingSelection();					
-		} else {
-			gui.setBookingUserInfoDisplay("Credit Card not found!");
-		}						
+		clearBookingSelection();
+		
 	}
 
 	/**
@@ -387,7 +386,12 @@ public class ModelController implements ActionListener{
 			viewShowTimes();
 		}
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getSelectSeat()) {
-			viewSeat();
+			try {
+				viewSeat();
+			// may bypass view showtime with current button layout
+			} catch (NullPointerException e1) {
+				
+			}
 		}
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getGetPrice()) {
 			getPrice();
@@ -747,16 +751,24 @@ public class ModelController implements ActionListener{
 		if (!voucherID.matches("[0-9]{5}")) {
 			gui.setBookingDisplay("Invalid entry, please enter a 5-digit voucher ID!");
 		} else {
+			int voucher = Integer.valueOf(voucherID);
 			try {
-				// save price as an attribute 
-				myPrice = customerManager.useVoucher(Integer.valueOf(voucherID), myPrice);	
+				String initBalance = "Initial balance on voucher: " + customerManager.getVoucherCredit(voucher);
+				myPrice = customerManager.useVoucher(voucher, myPrice);
+				String remainingPrice = String.format("%.2f", myPrice);
+				gui.getUserInfoFromBooking().getBalance().setText(remainingPrice);
 				
-				gui.getUserInfoFromBooking().getBalance().setText(String.valueOf(myPrice));
-				
-				// customerManager.useVoucher() returns the remaining balance of the ticket
-				// ie if credit of voucher is more than price of ticket, price is 0, otherwise it is a positive decimal number
-				processPayment();
+				String finalBalance;
+				if (myPrice == 0) {
+					String balance = String.format("%.2f", customerManager.getVoucherCredit(voucher));
+					finalBalance = "\nRemaining balance on voucher: $" + balance;
+				} else 
+					finalBalance = "\nRemaining balance on voucher: $ 0.00";
+				String toContinue = "\nClick Pay with card to continue";
+				gui.setBookingUserInfoDisplay(initBalance + finalBalance + toContinue);
+
 			} catch (InvalidVoucherException e1) {
+				e1.printStackTrace();
 				gui.setBookingUserInfoDisplay("Voucher not found!");
 			} catch (ExpiredVoucherException e2) {
 				gui.setBookingUserInfoDisplay("Voucher expired!");

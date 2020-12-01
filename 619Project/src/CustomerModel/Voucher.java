@@ -53,8 +53,9 @@ public class Voucher {
         	credit -= price;
         	return 0;
     	} else {
+    		double remaining = price - credit;
     		credit = 0;
-    		return price - credit;
+    		return remaining;
     	}
     }
     

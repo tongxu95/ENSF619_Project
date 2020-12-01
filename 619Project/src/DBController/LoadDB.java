@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
+
+import CustomException.InvalidVoucherException;
+
 import java.util.HashMap;
 import java.sql.Date;
 
@@ -59,7 +62,7 @@ public class LoadDB {
 		try {
 			do {
 				int voucherID = rs.getInt("VoucherID");
-				int credit = rs.getInt("Credit");
+				double credit = rs.getDouble("Credit");
 				Date expr_date = rs.getDate("Expr_Date");
 				vouchers.put(voucherID, new Voucher(voucherID, credit, expr_date));
 			} while (rs.next());
@@ -228,6 +231,6 @@ public class LoadDB {
             System.out.println();
         }
 	}
-	
+
 	
 }

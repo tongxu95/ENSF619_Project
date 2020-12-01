@@ -55,7 +55,7 @@ public class MovieCatalogue {
         ArrayList<Movies> output = new ArrayList<Movies>();
 
         for (int i = 0; i < movies.size(); i++) {
-            if (movies.get(i).getName().contains(name)) {
+            if (movies.get(i).getName().toLowerCase().contains(name.toLowerCase())) {
                 output.add(movies.get(i));
             }
         }
