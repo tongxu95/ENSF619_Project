@@ -42,6 +42,12 @@ public class ModelController implements ActionListener{
 	private BookingManager bookingManager;
 	private CustomerManager customerManager;
 	private BankManager bankManager;
+	private Movies movieSelected;
+	private Theater theaterSelected;
+	private Date dateSelected;
+	private Time timeSelected;
+	private ShowTime showtimeSelected;
+	private double myPrice;
 	private RegisteredUser regUser;
 	private User tempUser;
 	private MovieTicket myTicket;
@@ -97,7 +103,6 @@ public class ModelController implements ActionListener{
 		String movieSelectedName = (String)(gui.getBookingPage().getMovieList().getSelectedItem());	
 		if(movieSelectedName != null)
 		{
-			Movies movieSelected = null;
 			//get the selected movie's object
 			for(Movies movie: bookingManager.viewMovies()) {
 				if(movie.getName() == movieSelectedName)
@@ -112,53 +117,34 @@ public class ModelController implements ActionListener{
 	}
 
 	/**
-	 * view all theaters
-	 */
-	private void viewTheathers() {
-		gui.getBookingPage().getTheaterList().removeAllItems();
-
-		for(Theater theater: bookingManager.viewTheaters()) {
-			gui.getBookingPage().getTheaterList().addItem(theater.getName());		
-		}
-	}
-
-	/**
 	 * view showtimes by selected date in the view
 	 */
 	private void viewShowTimes() {
 		gui.getBookingPage().getTimeOfDate().removeAllItems();
-
+		
 		//get selected theater
-		String theaterSelected = (String)(gui.getBookingPage().getTheaterList().getSelectedItem());	
-		for(Theater theater: bookingManager.viewTheaters()) {
-			if(theater.getName() == theaterSelected)
-			{				
-				//get selected movie's name
-				String movieSelectedName = (String)(gui.getBookingPage().getMovieList().getSelectedItem());	
-				//get the selected movie's object
-				Movies movieSelected = null;
-				for(Movies movie: bookingManager.viewMovies()) {
-					if(movie.getName() == movieSelectedName) {	
-						movieSelected = movie;
-
-						//construct a Date object by using selected date in the view(String to Date)
-						String strDate = (String)(gui.getBookingPage().getDate().getSelectedItem());		
-						SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-						ParsePosition pos_date = new ParsePosition(0);
-						Date dateSelected = (Date)(dateFormatter.parse(strDate, pos_date));
-
-						//get showtime by selected movie and selected date	
-						for(ShowTime showTime: theater.searchShowTimesByDate(movieSelected, dateSelected)) {	
-							SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-							String timeString = timeFormatter.format(showTime.getTime());				
-							gui.getBookingPage().getTimeOfDate().addItem(timeString);
-						}	
-
-						break;
-					}
-				}				
+		String theaterSelectedName = (String)(gui.getBookingPage().getTheaterList().getSelectedItem());	
+		for(Theater theater: bookingManager.searchTheaters(movieSelected)) {
+			if(theater.getName() == theaterSelectedName) {		
+				theaterSelected = theater;
+				break;
 			}
-		}		
+		}
+
+		//construct a Date object by using selected date in the view(String to Date)
+		String strDate = (String)(gui.getBookingPage().getDate().getSelectedItem());		
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		ParsePosition pos_date = new ParsePosition(0);
+		dateSelected = (Date)(dateFormatter.parse(strDate, pos_date));
+
+		//get showtime by selected movie and selected date	
+		for(ShowTime showTime: theaterSelected.searchShowTimesByDate(movieSelected, dateSelected)) {	
+			SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+			String timeString = timeFormatter.format(showTime.getTime());				
+			gui.getBookingPage().getTimeOfDate().addItem(timeString);
+		}
+		
+
 	}
 
 	/**
@@ -167,46 +153,28 @@ public class ModelController implements ActionListener{
 	private void viewSeat() {
 		gui.getBookingPage().getSeatdisplay().removeAllItems();
 		
-		//get selected theater
-		String theaterSelected = (String)(gui.getBookingPage().getTheaterList().getSelectedItem());	
-		for(Theater theater: bookingManager.viewTheaters()) {			
-			if(theater.getName() == theaterSelected)
-			{		
-				//get showtime
-				for(ShowTime showtime: theater.getShowtimes())
-				{				
-					//get selected date
-					String strDate = (String)(gui.getBookingPage().getDate().getSelectedItem());			
-					SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-					ParsePosition pos_date = new ParsePosition(0);
-					Date dateSelected = (Date)(dateFormatter.parse(strDate, pos_date));
-
-					//get selected time
-					String strTime = (String)(gui.getBookingPage().getTimeOfDate().getSelectedItem());	
-					SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-					ParsePosition pos_time = new ParsePosition(0);
-					Time timeSelected = new java.sql.Time(((Date)(timeFormatter.parse(strTime, pos_time))).getTime());				
+		for(ShowTime showtime: theaterSelected.getShowtimes())
+		{				
+			//get selected time
+			String strTime = (String)(gui.getBookingPage().getTimeOfDate().getSelectedItem());	
+			SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+			ParsePosition pos_time = new ParsePosition(0);
+			timeSelected = new java.sql.Time(((Date)(timeFormatter.parse(strTime, pos_time))).getTime());				
 										
-					//compare year, month, day of two dates, compare hour, minute, second of two times
-					if(showtime.getDate().getYear() == dateSelected.getYear()
-							&& showtime.getDate().getMonth() == dateSelected.getMonth()
-							&& showtime.getDate().getDay() == dateSelected.getDay()
-							&& showtime.getTime().getHours() == timeSelected.getHours()
-							&& showtime.getTime().getMinutes() == timeSelected.getMinutes()
-							&& showtime.getTime().getSeconds() == timeSelected.getSeconds()) 
-					{
-						Seat[][] seat = showtime.displaySeats().displaySeats();
+			//compare year, month, day of two dates, compare hour, minute, second of two times
+			if(showtime.getDate().equals(dateSelected) && showtime.getTime().equals(timeSelected))
+			{
+				showtimeSelected = showtime;
+				Seat[][] seat = showtime.displaySeats();
 						
-						for(int i = 0; i < seat.length; i++)
-							for(int j = 0; j < seat[i].length; j++){
-							if(seat[i][j].checkAvailability())
-								gui.getBookingPage().getSeatdisplay().addItem(i + "," + j);
-						}
-						
-						break;							
+				for(int i = 0; i < seat.length; i++) {
+					for(int j = 0; j < seat[i].length; j++){
+						if(seat[i][j].checkAvailability())
+							gui.getBookingPage().getSeatdisplay().addItem(i + "," + j);
 					}
 				}
 			}
+			break;
 		}				
 	}
 
@@ -214,40 +182,8 @@ public class ModelController implements ActionListener{
 	 * get price
 	 */
 	private void getPrice() {
-
-		//get selected theater
-		String theaterSelected = (String)(gui.getBookingPage().getTheaterList().getSelectedItem());	
-		for(Theater theater: bookingManager.viewTheaters()) {
-			if(theater.getName() == theaterSelected)
-			{
-				//get selected date
-				String strDate = (String)(gui.getBookingPage().getDate().getSelectedItem());			
-				SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-				ParsePosition pos_date = new ParsePosition(0);
-				Date dateSelected = (Date)(dateFormatter.parse(strDate, pos_date));
-
-				//get selected time
-				String strTime = (String)(gui.getBookingPage().getTimeOfDate().getSelectedItem());	
-				SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-				ParsePosition pos_time = new ParsePosition(0);
-				Time timeSelected = new java.sql.Time(((Date)(timeFormatter.parse(strTime, pos_time))).getTime());	
-
-				//get price by using selected date and selected time
-				for(ShowTime showtime: theater.getShowtimes()) {
-					//compare year, month, day of two dates, compare hour, minute, second of two times
-					if(showtime.getDate().getYear() == dateSelected.getYear()
-							&& showtime.getDate().getMonth() == dateSelected.getMonth()
-							&& showtime.getDate().getDay() == dateSelected.getDay()
-							&& showtime.getTime().getHours() == timeSelected.getHours()
-							&& showtime.getTime().getMinutes() == timeSelected.getMinutes()
-							&& showtime.getTime().getSeconds() == timeSelected.getSeconds()) {
-						double price = showtime.getPrice();
-						gui.getBookingPage().getPrice().setText(String.valueOf(price));
-						break;
-					}			
-				}
-			}
-		}
+		myPrice = showtimeSelected.getPrice();
+		gui.getBookingPage().getPrice().setText(String.valueOf(myPrice));
 	}
 
 	/**
@@ -262,7 +198,7 @@ public class ModelController implements ActionListener{
 		gui.getUserInfoFromBooking().getMakePayment().addActionListener(this);
 		gui.getUserInfoFromBooking().getRenewFee().addActionListener(this); 
 
-		//user info view for booking, the button of "Cancel Seat" is unavailabe.
+		//user info view for booking, the button of "Cancel Seat" is unavailable.
 		gui.getUserInfoFromBooking().getCancelSeat().setEnabled(false);
 	}
 
@@ -273,12 +209,12 @@ public class ModelController implements ActionListener{
 	 * @throws InvalidBankException 
 	 */
 	private boolean login(ActionEvent e) throws InvalidUsernameException, InvalidPasswordException {
-		//open userinfo view from booking
+		//open user info view from booking
 		if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getLogin())
 		{
 			return loginFromBooking();
 		}
-		//open userinfo view from cancellation
+		//open user info view from cancellation
 		else {
 			return loginFromCancellation();
 		}
@@ -339,71 +275,37 @@ public class ModelController implements ActionListener{
 		long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
 		int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
 		int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
-		// TODO: price should not from booking page but based on balance on user info page
-		double price = Double.valueOf(gui.getBookingPage().getPrice().getText());
+		// TODO: price should be updated based on balance on user info page (after using voucher)
+		myPrice = Double.valueOf(gui.getBookingPage().getPrice().getText());
 
 		//pay booking fee
-		boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, price);
+		boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, myPrice);
 		if(payStat)//paid successfully
 		{
-			//get selected theater
-			String theaterSelected = (String)(gui.getBookingPage().getTheaterList().getSelectedItem());	
-			for(Theater theater: bookingManager.viewTheaters()) {
-				if(theater.getName() == theaterSelected)
-				{
-					//get selected date
-					String strDate = (String)(gui.getBookingPage().getDate().getSelectedItem());			
-					SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-					ParsePosition pos_date = new ParsePosition(0);
-					Date dateSelected = (Date)(dateFormatter.parse(strDate, pos_date));
-
-					//get selected time
-					String strTime = (String)(gui.getBookingPage().getTimeOfDate().getSelectedItem());	
-					SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
-					ParsePosition pos_time = new ParsePosition(0);
-					Time timeSelected = new java.sql.Time(((Date)(timeFormatter.parse(strTime, pos_time))).getTime());	
-
-					//get showtime
-					for(ShowTime showtime: theater.getShowtimes()) {
-						//compare year, month, day of two dates, compare hour, minute, second of two times
-						if(showtime.getDate().getYear() == dateSelected.getYear()
-								&& showtime.getDate().getMonth() == dateSelected.getMonth()
-								&& showtime.getDate().getDay() == dateSelected.getDay()
-								&& showtime.getTime().getHours() == timeSelected.getHours()
-								&& showtime.getTime().getMinutes() == timeSelected.getMinutes()
-								&& showtime.getTime().getSeconds() == timeSelected.getSeconds()) {
+			//book a seat and get a ticket*******************************************
+			String seatSelected = (String)(gui.getBookingPage().getSeatdisplay().getSelectedItem());
+			String[] str = seatSelected.split(",");
+			int row = Integer.valueOf(str[0]);
+			int column = Integer.valueOf(str[1]);
+			String userType = gui.getUserInfoFromBooking().getUserType().getText();
+			MovieTicket movieTicket = showtimeSelected.selectSeat(row, column, bookingID, userType);
 							
-							//book a seat and get a ticket*******************************************
-							String seatSelected = (String)(gui.getBookingPage().getSeatdisplay().getSelectedItem());
-							String[] str = seatSelected.split(",");
-							int row = Integer.valueOf(str[0]);
-							int column = Integer.valueOf(str[1]);
-							String userType = gui.getUserInfoFromBooking().getUserType().getText();
-							MovieTicket movieTicket = showtime.selectSeat(row, column, bookingID, userType);
+			if(movieTicket != null)
+			{
+				gui.getUserInfoFromBooking().getDisplay().setText("Paid Successfully!");	
 							
-							if(movieTicket == null)
-							{
-								gui.getUserInfoFromBooking().getDisplay().setText("That seat is not available!");
-							}
-							else
-							{
-								gui.getUserInfoFromBooking().getDisplay().setText("Paid Successfully!");	
-							}
-							
-							bookingID += 1;//bookingID plus 1 if a seat was booked
+				bookingID += 1;//bookingID plus 1 if a seat was booked
 
-							//show the ticket in booking view
-							gui.getBookingPage().setDisplay(movieTicket.toString()); 
+				//show the ticket in booking view
+				gui.getBookingPage().setDisplay(movieTicket.toString()); 
 
-							//add the ticket to BookingManger
-							bookingManager.addBooking(bookingID, movieTicket);	
+				//add the ticket to BookingManger
+				bookingManager.addBooking(bookingID, movieTicket);	
 							
-							break;
-						}			
-					}
-				}			
-			}	
-			gui.getUserInfoFromBooking().dispose();
+				gui.getUserInfoFromBooking().dispose();
+				
+				// TODO: clear booking selection
+			}
 		} else {
 			gui.setBookingUserInfoDisplay("Credit Card not found!");
 		}
@@ -429,9 +331,7 @@ public class ModelController implements ActionListener{
 		}
 		else if(e.getSource() == gui.getCancellation()) {
 			gui.setCancelPage(new CancellationView());
-
 			gui.getCancelPage().getBookingID().addActionListener(this);
-			
 			gui.getCancelPage().getCancel().addActionListener(this);
 		}		
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getViewMovie()) {
@@ -442,10 +342,7 @@ public class ModelController implements ActionListener{
 		}
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getSearchTheater()) {
 			searchTheather();
-		}		
-		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getViewAllTheater()) {
-			viewTheathers();
-		}		
+		}			
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getSearchShowTimes()) {
 			viewShowTimes();
 		}

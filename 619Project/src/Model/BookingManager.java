@@ -82,7 +82,7 @@ public class BookingManager {
     /**
      * @return the seatmap of a showtime
      */
-    public SeatMap displaySeat(ShowTime showtime) {
+    public Seat[][] displaySeat(ShowTime showtime) {
         return showtime.displaySeats();
     }
 

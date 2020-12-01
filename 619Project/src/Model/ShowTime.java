@@ -47,8 +47,8 @@ public class ShowTime implements Comparable<ShowTime> {
     /** 
      * Return the seatmap for the showtime for the GUI
      */
-    public SeatMap displaySeats() {
-        return this.seats_offered;
+    public Seat[][] displaySeats() {
+        return this.seats_offered.displaySeats();
     }
 
     /**

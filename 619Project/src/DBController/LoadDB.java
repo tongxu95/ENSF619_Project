@@ -214,8 +214,7 @@ public class LoadDB {
 
         System.out.println("BookingManager.displaySeat(ShowTime showtime)");
         MovieTicket ticket = manager.validateBooking(1018);
-        SeatMap seatmap = manager.displaySeat(ticket.getShowTime());
-        Seat[][] seats = seatmap.displaySeats();
+        Seat[][] seats = manager.displaySeat(ticket.getShowTime());
         for (int i = 0; i < seats.length; i++) {
             for (int j = 0; j < seats[i].length; j++) {
                 if (seats[i][j].checkAvailability()) {
