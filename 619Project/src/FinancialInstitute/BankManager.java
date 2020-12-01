@@ -31,7 +31,7 @@ public class BankManager {
     }
     
     private Bank findBank(String bank) {
-    	return banks.get(bank);
+    	return banks.get(bank.toUpperCase());
     }
     
     

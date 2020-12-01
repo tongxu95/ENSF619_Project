@@ -50,6 +50,7 @@ public class ModelController implements ActionListener{
 	private Date dateSelected;
 	private Time timeSelected;
 	private ShowTime showtimeSelected;
+	private int rowSelected, colSelected;
 	private double myPrice;
 	private RegisteredUser regUser;
 	private User tempUser;
@@ -80,8 +81,7 @@ public class ModelController implements ActionListener{
 		String movieName = gui.getBookingPage().getSearchMovie().getText();
 
 		for(Movies movie: bookingManager.searchMovie(movieName)) {			
-				if(movieName.contains(movie.getName()))
-					gui.getBookingPage().getMovieList().addItem(movie.getName());		
+			gui.getBookingPage().getMovieList().addItem(movie.getName());		
 		}
 	}
 
@@ -167,6 +167,7 @@ public class ModelController implements ActionListener{
 			if(showtime.getDate().equals(dateSelected) && showtime.getTime().equals(timeSelected))
 			{
 				showtimeSelected = showtime;
+				myPrice = showtime.getPrice();
 				Seat[][] seat = showtime.displaySeats();
 						
 				for(int i = 0; i < seat.length; i++) {
@@ -186,7 +187,6 @@ public class ModelController implements ActionListener{
 	 * get price
 	 */
 	private void getPrice() {
-		myPrice = showtimeSelected.getPrice();
 		gui.getBookingPage().getPrice().setText(String.valueOf(myPrice));
 	}
 
@@ -275,85 +275,78 @@ public class ModelController implements ActionListener{
 		}
 	}
 
+	private boolean selectSeat() {
+		//check selected seat
+		int cnt_selectSeat = 0;
+		int row = 0;
+		int column = 0;
+		for(int i = 0; i < gui.getBookingPage().getSeatMap().length; i++) {
+			for(int j = 0; j < gui.getBookingPage().getSeatMap()[i].length; j++) {				
+				if(gui.getBookingPage().getSeatMap()[i][j].getText() == "X") {
+					cnt_selectSeat++;
+					row = i;
+					column = j;
+				}
+			}
+		}
+		//didn't select seat or select more than one seat
+		if(cnt_selectSeat != 1) {
+			gui.setBookingDisplay("Please select one seat!");
+			clearBookingSelection();
+			return false;
+		} else {
+			rowSelected = row;
+			colSelected = column;
+			return true;
+		}
+	}
+	
 	/**
 	 * process payment
 	 * @param e
 	 * @throws InvalidBankException 
 	 */
 	private void processPayment() throws InvalidBankException {	
-		//check selected seat
-		int cnt_selectSeat = 0;
-		int row = 0;
-		int column = 0;
-		for(int i = 0; i < gui.getBookingPage().getSeatMap().length; i++)
-			for(int j = 0; j < gui.getBookingPage().getSeatMap()[i].length; j++)
-			{				
-				if(gui.getBookingPage().getSeatMap()[i][j].getText() == "X")
-				{
-					cnt_selectSeat++;
-					row = i;
-					column = j;
-				}
-			}
+
+		String userType = gui.getUserInfoFromBooking().getUserType().getText();
 		
-		if(cnt_selectSeat != 1)//didn't select seat or select more than one seat
-		{
-			gui.setBookingUserInfoDisplay("Please select one seat!");
-			return;
+		String balance = gui.getUserInfoFromBooking().getBalance().getText();
+		if (! balance.equals("")) {
+			myPrice = Double.valueOf(balance);
 		}
-		else //select one seat
-		{
-			String userType = gui.getUserInfoFromBooking().getUserType().getText();
-			myTicket = showtimeSelected.selectSeat(row, column, bookingID, userType);
 
-			if(myTicket != null)//check the seat is available
-			{
-				boolean payStat = true;
-				
-				Double myPrice = Double.valueOf(gui.getUserInfoFromBooking().getBalance().getText());
-
-				if((int)(myPrice*100) > 0)//use card
-				{
-					String bank = gui.getUserInfoFromBooking().getBank().getText();
-					long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
-					int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
-					int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
-					// TODO: price should be updated based on balance on user info page (after using voucher)
-					myPrice = Double.valueOf(gui.getBookingPage().getPrice().getText());	
+		String bank = gui.getUserInfoFromBooking().getBank().getText();
+		long card_no = Long.valueOf(gui.getUserInfoFromBooking().getCard_no().getText());
+		int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
+		int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());	
 	
-					payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, myPrice);
-				}
+		System.out.println(myPrice);
+		boolean payStat = bankManager.processTransaction(bank, card_no, expr_date, cvv, myPrice);
+			
+		//paid successfully
+		if(payStat) {	
+			gui.setBookingUserInfoDisplay("Paid Successfully!");	
+			
+			myTicket = showtimeSelected.selectSeat(rowSelected, colSelected, bookingID, userType);
 
-				if(payStat)//paid successfully
-				{	
-					gui.setBookingUserInfoDisplay("Paid Successfully!");	
-
-					bookingID += 1;//bookingID plus 1 if a seat was booked
+			bookingID += 1;//bookingID plus 1 if a seat was booked
 	
-					//show the ticket in booking view
-					if (userType.equals("Registered")) {
-						gui.setBookingDisplay(regUser.sendTicket(myTicket));
-					} else {
-						gui.setBookingDisplay(tempUser.sendTicket(myTicket));
-					}
+			//show the ticket in booking view
+			if (userType.equals("Registered")) {
+				gui.setBookingDisplay(regUser.sendTicket(myTicket));
+			} else {
+				gui.setBookingDisplay(tempUser.sendTicket(myTicket));
+			}
 	
-					//add the ticket to BookingManger
-					bookingManager.addBooking(bookingID, myTicket);	
+			//add the ticket to BookingManger
+			bookingManager.addBooking(bookingID, myTicket);	
 								
-					gui.getUserInfoFromBooking().dispose();
+			gui.getUserInfoFromBooking().dispose();
 	
-					clearBookingSelection();					
-				}
-				else {
-					gui.setBookingUserInfoDisplay("Credit Card not found!");
-				}				
-			}
-			else
-			{
-				gui.setBookingUserInfoDisplay("The seat is not available!");
-				return;				
-			}
-		}		
+			clearBookingSelection();					
+		} else {
+			gui.setBookingUserInfoDisplay("Credit Card not found!");
+		}						
 	}
 
 	/**
@@ -400,7 +393,7 @@ public class ModelController implements ActionListener{
 			getPrice();
 		}		
 		else if (gui.getBookingPage() != null && e.getSource() == gui.getBookingPage().getProcessPayment()) {
-			showUserInfo_Booking();
+			if (selectSeat()) showUserInfo_Booking();
 		}	
 		else if (gui.getCancelPage() != null && e.getSource() == gui.getCancelPage().getCancel()) {
 			validateBooking();
@@ -672,8 +665,8 @@ public class ModelController implements ActionListener{
 		gui.getUserInfoCancel().getCancelSeat().addActionListener(this);
 		gui.getUserInfoCancel().getRenewFee().addActionListener(this);
 
-		//user info view for cancellation, the button of "Make Payment", "Register", "No Account" are unavailabe.
 		gui.getUserInfoCancel().getMakePayment().setEnabled(false);
+		gui.getUserInfoCancel().getMakePaymentWithVoucher().setEnabled(false);
 		gui.getUserInfoCancel().getRegister().setEnabled(false);
 		gui.getUserInfoCancel().getNoAccount().setEnabled(false);	
 		
@@ -690,7 +683,6 @@ public class ModelController implements ActionListener{
 		gui.getUserInfoCancel().getCancelSeat().addActionListener(this);
 		gui.getUserInfoCancel().getRenewFee().addActionListener(this);
 
-		//user info view for cancellation, the button of "Make Payment", "Register", "No Account" are unavailabe.
 		gui.getUserInfoCancel().getMakePayment().setEnabled(false);
 		gui.getUserInfoCancel().getMakePaymentWithVoucher().setEnabled(false);
 		gui.getUserInfoCancel().getRegister().setEnabled(false);
