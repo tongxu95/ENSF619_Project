@@ -114,5 +114,5 @@ public class CancellationView extends JFrame{
 	
 	public void clearBookingID() {
 		bookingID.setText("");
-	}
+	}	
 }

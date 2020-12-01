@@ -24,6 +24,7 @@ public class UserInfoView extends JFrame{
 	private JTextField password = new JTextField(10);
 	private JButton login = new JButton("Login");
 	private JTextField feeRenewalStatus = new JTextField(10);
+	private JButton renewFee = new JButton("Renew Fee");
 	private JLabel userType = new JLabel("");
 	private JTextField nameOfUser = new JTextField(20);
 	private JTextField addr = new JTextField(20);
@@ -34,14 +35,16 @@ public class UserInfoView extends JFrame{
 	private JTextField email = new JTextField(20);
 	private JButton register = new JButton("Register");
 	private JButton noAccount = new JButton("noAccount");
-	private JButton renewFee = new JButton("Renew Fee");
-	private JButton makePayment = new JButton("make Payment");
+	private JTextField voucherID = new JTextField(20);
+	private JTextField balance = new JTextField(20);
+	private JButton makePaymentWithVoucher = new JButton("Pay with voucher");
+	private JButton makePayment = new JButton("Pay with card");
 	private JButton cancelSeat = new JButton("cancel Seat");	
 	private JTextField display = new JTextField(20);
 	
 	public UserInfoView(){
 		Container contentPane = getContentPane();
-		contentPane.setLayout(new GridLayout(15, 1));
+		contentPane.setLayout(new GridLayout(20, 1));
 		contentPane.setSize(200, 200);
 		
 		JPanel Panel_0 = new JPanel();
@@ -119,13 +122,6 @@ public class UserInfoView extends JFrame{
 		Panel_10.add(emailPrompt);
 		Panel_10.add(email);
 		contentPane.add(Panel_10);		
-
-		/*
-		JPanel Panel_12 = new JPanel();
-		JLabel actionPrompt = new JLabel("Action:");
-		Panel_12.add(actionPrompt);
-		contentPane.add(Panel_12);
-		*/
 		
 		JPanel Panel_13 = new JPanel();
 		Panel_13.add(register);
@@ -134,12 +130,33 @@ public class UserInfoView extends JFrame{
 		Panel_13.add(noAccount);
 		contentPane.add(Panel_13);	
 		
+		JPanel Panel_13_2 = new JPanel();
+		JLabel gap_1 = new JLabel("----------------------------------------------------------------------------------------------------------");
+		Panel_13_2.add(gap_1);
+		contentPane.add(Panel_13_2);		
+		
 		JPanel Panel_14 = new JPanel();
-		Panel_14.add(makePayment);
-		JLabel spacePrompt_4 = new JLabel("        ");
-		Panel_14.add(spacePrompt_4);
-		Panel_14.add(cancelSeat);
+		JLabel voucherIDPrompt = new JLabel("Voucher ID:");
+		Panel_14.add(voucherIDPrompt);	
+		Panel_14.add(voucherID);	
+		Panel_14.add(makePaymentWithVoucher);
 		contentPane.add(Panel_14);	
+		
+		JPanel Panel_14_1 = new JPanel();
+		JLabel balancePrompt = new JLabel(" Balance:");
+		Panel_14_1.add(balancePrompt);	
+		Panel_14_1.add(balance);	
+		Panel_14_1.add(makePayment);
+		contentPane.add(Panel_14_1);			
+		
+		JPanel Panel_14_2 = new JPanel();
+		JLabel gap_2 = new JLabel("----------------------------------------------------------------------------------------------------------");
+		Panel_14_2.add(gap_2);
+		contentPane.add(Panel_14_2);	
+		
+		JPanel Panel_15_0 = new JPanel();
+		Panel_15_0.add(cancelSeat);
+		contentPane.add(Panel_15_0);
 		
 		JPanel Panel_15=new JPanel();
 		JLabel messagePrompt = new JLabel("Message:");
@@ -216,10 +233,22 @@ public class UserInfoView extends JFrame{
 	public JTextField getDisplay() {
 		return display;
 	}
+	
+	public JTextField getVoucherID() {
+		return voucherID;
+	}	
 
 	public JButton getMakePayment() {
 		return makePayment;
 	}
+	
+	public JButton getMakePaymentWithVoucher() {
+		return makePaymentWithVoucher;
+	}	
+	
+	public JTextField getBalance() {
+		return balance;
+	}		
 	
 	public JButton getCancelSeat() {
 		return cancelSeat;
