@@ -111,4 +111,8 @@ public class CancellationView extends JFrame{
 	public void setStatusDisplay(String text) {
 		userInfo.setStatus(text);
 	}
+	
+	public void clearBookingID() {
+		bookingID.setText("");
+	}
 }

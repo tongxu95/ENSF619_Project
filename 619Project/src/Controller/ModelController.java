@@ -15,6 +15,7 @@ package Controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.security.InvalidParameterException;
 import java.util.Date;
 import java.sql.Time;
 import java.text.ParsePosition;
@@ -287,7 +288,7 @@ public class ModelController implements ActionListener{
 	/**
 	 * register user
 	 */
-	private void registerUser() {
+	private void registerUser() throws InvalidParameterException {
 		{
 			String username = gui.getUserInfoFromBooking().getUserName().getText();
 			String password = gui.getUserInfoFromBooking().getPassword().getText();
@@ -303,6 +304,9 @@ public class ModelController implements ActionListener{
 			int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
 			int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
 			String email = gui.getUserInfoFromBooking().getEmail().getText();
+			if (name.equals("")||addr.equals("")||bank.equals("")||email.equals("")) {
+				throw new InvalidParameterException();
+			}
 
 			//register user
 			try {
@@ -317,6 +321,8 @@ public class ModelController implements ActionListener{
 				gui.setBookingUserInfoDisplay("To activate account, must pay $20.00 annual fee.\nClick Renew Fee Button to continue.");
 			} catch (InvalidUsernameException e) {
 				gui.setBookingUserInfoDisplay("Username already taken. Choose a different username!");
+			} catch (InvalidParameterException e2) {
+				gui.setBookingUserInfoDisplay("Invalid user information!");
 			}
 
 		}
@@ -553,7 +559,9 @@ public class ModelController implements ActionListener{
 		//cancel ticket from cancellation page
 		else if((gui.getCancelPage() != null && gui.getUserInfoCancel() != null && e.getSource() == gui.getUserInfoCancel().getCancelSeat())){
 			gui.getUserInfoCancel().dispose();
-			cancelTicket(e);
+			cancelTicket();
+			gui.getCancelPage().clearBookingID();
+			myTicket = null;
 		}
 	}
 
@@ -668,9 +676,8 @@ public class ModelController implements ActionListener{
 
 	/**
 	 * cancel ticket
-	 * @param e
 	 */
-	private void cancelTicket(ActionEvent e) {
+	private void cancelTicket() {
 
 		// booking already validated
 		double credit = bookingManager.cancelTicket(myTicket);
@@ -725,7 +732,8 @@ public class ModelController implements ActionListener{
 	 * create temporary user
 	 * @param e
 	 */
-	private User createTempUser(ActionEvent e) throws NumberFormatException {
+	private User createTempUser(ActionEvent e) throws NumberFormatException, InvalidParameterException
+	{
 		//open userinfo view from booking
 		if(gui.getBookingPage() != null && gui.getUserInfoFromBooking() != null && e.getSource() == gui.getUserInfoFromBooking().getNoAccount())
 		{			
@@ -736,6 +744,9 @@ public class ModelController implements ActionListener{
 			int expr_date = Integer.valueOf(gui.getUserInfoFromBooking().getExpr_date().getText());
 			int cvv = Integer.valueOf(gui.getUserInfoFromBooking().getCvv().getText());
 			String email = gui.getUserInfoFromBooking().getEmail().getText();
+			if (name.equals("")||addr.equals("")||bank.equals("")||email.equals("")) {
+				throw new InvalidParameterException ();
+			}
 
 			tempUser = customerManager.createTempUser(name, addr, bank, card_no, expr_date, cvv, email);
 			gui.getUserInfoFromBooking().getLogin().setEnabled(false);
@@ -753,7 +764,10 @@ public class ModelController implements ActionListener{
 			int expr_date = Integer.valueOf(gui.getUserInfoCancel().getExpr_date().getText());
 			int cvv = Integer.valueOf(gui.getUserInfoCancel().getCvv().getText());
 			String email = gui.getUserInfoCancel().getEmail().getText();
-
+			if (name.equals("")||addr.equals("")||bank.equals("")||email.equals("")) {
+				throw new InvalidParameterException ();
+			}
+			
 			tempUser = customerManager.createTempUser(name, addr, bank, card_no, expr_date, cvv, email);			
 			gui.getUserInfoCancel().getUserType().setText("Temporary User");	
 			gui.setCancelUserInfoDisplay("Temporary User created successfully!");
