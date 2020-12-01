@@ -49,7 +49,7 @@ public class User {
 	public String sendVoucher(String voucher) {
 		String confirmation = "Dear " + name + ":\n";
 		confirmation += "Please find below your voucher information:\n";
-		confirmation += voucher.toString();
+		confirmation += voucher;
 		return confirmation;
 	}
 	

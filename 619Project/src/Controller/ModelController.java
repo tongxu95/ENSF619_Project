@@ -288,29 +288,32 @@ public class ModelController implements ActionListener{
 			int row = Integer.valueOf(str[0]);
 			int column = Integer.valueOf(str[1]);
 			String userType = gui.getUserInfoFromBooking().getUserType().getText();
-			MovieTicket movieTicket = showtimeSelected.selectSeat(row, column, bookingID, userType);
+			myTicket = showtimeSelected.selectSeat(row, column, bookingID, userType);
 							
-			if(movieTicket != null)
+			if(myTicket != null)
 			{
-				gui.getUserInfoFromBooking().getDisplay().setText("Paid Successfully!");	
+				gui.setBookingUserInfoDisplay("Paid Successfully!");	
 							
 				bookingID += 1;//bookingID plus 1 if a seat was booked
 
 				//show the ticket in booking view
-				gui.getBookingPage().setDisplay(movieTicket.toString()); 
+				if (userType.equals("Registered")) {
+					gui.setBookingDisplay("Cancelled successfully!\n" + regUser.sendTicket(myTicket));
+				} else {
+					gui.setBookingDisplay("Cancelled successfully!\n" + tempUser.sendTicket(myTicket));
+				}
 
 				//add the ticket to BookingManger
-				bookingManager.addBooking(bookingID, movieTicket);	
+				bookingManager.addBooking(bookingID, myTicket);	
 							
 				gui.getUserInfoFromBooking().dispose();
-				
-				// TODO: clear booking selection
+
+				clearBookingSelection();
 			}
 		} else {
 			gui.setBookingUserInfoDisplay("Credit Card not found!");
 		}
 	}	
-
 
 	/**
 	 * actionPerformed
@@ -513,7 +516,7 @@ public class ModelController implements ActionListener{
 		getRegUser("Booking");
 		
 		if(regUser != null)	{
-			gui.getUserInfoFromBooking().getUserType().setText("Registered User");
+			gui.getUserInfoFromBooking().getUserType().setText("Registered");
 			gui.getUserInfoFromBooking().getNameOfUser().setText(regUser.getName());
 			gui.getUserInfoFromBooking().getAddr().setText(regUser.getName());
 			gui.getUserInfoFromBooking().getBank().setText(regUser.getFinancial_institution());
@@ -692,6 +695,11 @@ public class ModelController implements ActionListener{
 //
 //		}
 //	}
+
+	private void clearBookingSelection() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }
